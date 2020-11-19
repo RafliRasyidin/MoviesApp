@@ -1,10 +1,12 @@
 package com.rasyidin.moviesapp.ui.movies
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.rasyidin.moviesapp.model.Movies
-import com.rasyidin.moviesapp.utils.DataDummy.generateDummyMovies
+import com.rasyidin.moviesapp.data.remote.movies.Movie
+import com.rasyidin.moviesapp.data.remote.repository.RemoteRepository
 
-class MovieViewModel : ViewModel() {
+class MovieViewModel(private val repository: RemoteRepository) : ViewModel() {
 
-    fun getMovies(): List<Movies> = generateDummyMovies()
+    fun getMovies(): LiveData<List<Movie>> = repository.getMovies()
+
 }

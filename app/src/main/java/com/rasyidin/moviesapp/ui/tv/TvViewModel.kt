@@ -1,11 +1,10 @@
 package com.rasyidin.moviesapp.ui.tv
 
 import androidx.lifecycle.ViewModel
-import com.rasyidin.moviesapp.model.Tv
-import com.rasyidin.moviesapp.utils.DataDummy.generateDummyTv
+import com.rasyidin.moviesapp.data.remote.repository.RemoteRepository
 
-class TvViewModel: ViewModel() {
+class TvViewModel(private val repository: RemoteRepository) : ViewModel() {
 
-    fun getTv(): List<Tv> = generateDummyTv()
+    fun getTv() = repository.getTV()
 
 }
