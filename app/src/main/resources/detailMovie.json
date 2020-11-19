@@ -1,0 +1,61 @@
+{
+  "adult": false,
+  "backdrop_path": "/gnf4Cb2rms69QbCnGFJyqwBWsxv.jpg",
+  "belongs_to_collection": null,
+  "budget": 0,
+  "genres": [
+    {
+      "id": 53,
+      "name": "Thriller"
+    },
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 80,
+      "name": "Crime"
+    }
+  ],
+  "homepage": "https://www.netflix.com/title/81115400",
+  "id": 671039,
+  "imdb_id": "tt10127684",
+  "original_language": "fr",
+  "original_title": "Bronx",
+  "overview": "Caught in the crosshairs of police corruption and Marseille’s warring gangs, a loyal cop must protect his squad by taking matters into his own hands.",
+  "popularity": 2139.868,
+  "poster_path": "/9HT9982bzgN5on1sLRmc1GMn6ZC.jpg",
+  "production_companies": [
+    {
+      "id": 9,
+      "logo_path": "/nda3dTUYdDrJ6rZqBpYvY865aDv.png",
+      "name": "Gaumont",
+      "origin_country": "FR"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "FR",
+      "name": "France"
+    }
+  ],
+  "release_date": "2020-10-30",
+  "revenue": 0,
+  "runtime": 116,
+  "spoken_languages": [
+    {
+      "iso_639_1": "fr",
+      "name": "Français"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "Rogue City",
+  "video": false,
+  "vote_average": 6.1,
+  "vote_count": 193
+}
