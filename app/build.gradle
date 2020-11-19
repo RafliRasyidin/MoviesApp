@@ -2,18 +2,20 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "30.0.1"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.rasyidin.moviesapp"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        buildConfigField("String", "API_KEY", '"4593d83a2aabb3d288adefd681c1ca00"')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +52,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
+    // MKLoader (custom loading)
+    implementation 'com.tuyenmonkey:mkloader:1.4.0'
+
     //testing
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "junit:junit:$junitVersion"
@@ -57,7 +62,21 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "androidx.test:rules:$androidXTestVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$idleResourceVersion"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion"
+    testImplementation 'org.mockito:mockito-inline:3.1.0'
+    testImplementation "androidx.arch.core:core-testing:$archLifecycleVersion"
 
     //architecture component
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+
+    // Kodein
+    implementation "org.kodein.di:kodein-di-generic-jvm:$kodein_version"
+    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+
 }
