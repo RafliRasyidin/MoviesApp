@@ -8,18 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.model.Tv
+import com.rasyidin.moviesapp.data.remote.tv.TV
 import com.rasyidin.moviesapp.ui.detail.DetailActivity
 import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_TV
+import com.rasyidin.moviesapp.utils.ConstantValue
 import kotlinx.android.synthetic.main.item_film.view.*
 
 class TvAdapter :
     RecyclerView.Adapter<TvAdapter.TvViewHolder>() {
 
-    private val listTv = ArrayList<Tv>()
+    private val listTv = ArrayList<TV>()
 
-    fun setListTv(tv: List<Tv>?) {
-        if (tv == null) return
+    fun setListTv(tv: List<TV>?) {
+        if (tv.isNullOrEmpty()) return
         listTv.clear()
         listTv.addAll(tv)
     }
@@ -39,13 +40,13 @@ class TvAdapter :
     }
 
     inner class TvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tv: Tv) {
+        fun bind(tv: TV) {
             with(itemView) {
-                tv_title.text = tv.title
-                tv_release.text = tv.release
-                tv_rate.text = tv.score
+                tv_title.text = tv.name
+                tv_release.text = tv.firstAirDate
+                tv_rate.text = tv.voteAverage.toString()
                 Glide.with(context)
-                    .load(tv.image)
+                    .load(ConstantValue.BASE_URL_IMAGE + tv.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_broken_image_black)
@@ -54,7 +55,7 @@ class TvAdapter :
 
                 setOnClickListener {
                     val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.EXTRA_DETAIL, tv.tvId)
+                        putExtra(DetailActivity.EXTRA_DETAIL, tv.id)
                         putExtra(DetailActivity.EXTRA_TYPE, TYPE_TV)
                     }
                     context.startActivity(intent)

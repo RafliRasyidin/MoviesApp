@@ -8,17 +8,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.model.Movies
+import com.rasyidin.moviesapp.data.remote.movies.Movie
 import com.rasyidin.moviesapp.ui.detail.DetailActivity
 import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_MOVIE
+import com.rasyidin.moviesapp.utils.ConstantValue
 import kotlinx.android.synthetic.main.item_film.view.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.FilmViewHolder>() {
 
-    private var listMovies = ArrayList<Movies>()
+    private var listMovies = ArrayList<Movie>()
 
-    fun setMovies(movie: List<Movies>?) {
-        if (movie == null) return
+    fun setMovies(movie: List<Movie>?) {
+        if (movie.isNullOrEmpty()) return
         listMovies.clear()
         listMovies.addAll(movie)
     }
@@ -37,13 +38,13 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.FilmViewHolder>() {
     override fun getItemCount(): Int = listMovies.size
 
     inner class FilmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movies) {
+        fun bind(movie: Movie) {
             with(itemView) {
                 tv_title.text = movie.title
-                tv_rate.text = movie.score
+                tv_rate.text = movie.voteAverage.toString()
                 tv_release.text = movie.releaseDate
                 Glide.with(context)
-                    .load(movie.image)
+                    .load(ConstantValue.BASE_URL_IMAGE + movie.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_broken_image_black)
@@ -52,7 +53,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.FilmViewHolder>() {
 
                 setOnClickListener {
                     val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.EXTRA_DETAIL, movie.movieId)
+                        putExtra(DetailActivity.EXTRA_DETAIL, movie.id)
                         putExtra(DetailActivity.EXTRA_TYPE, TYPE_MOVIE)
                     }
                     context.startActivity(intent)
