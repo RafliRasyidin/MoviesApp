@@ -8,9 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rasyidin.moviesapp.R
+import com.rasyidin.moviesapp.data.remote.tv.TV
+import com.rasyidin.moviesapp.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_tv.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class TVFragment : Fragment() {
+class TVFragment : Fragment(), KodeinAware {
+
+    private lateinit var viewModel: TvViewModel
+    private lateinit var tvAdapter: TvAdapter
+    override val kodein by kodein()
+    private val viewModelFactory: ViewModelFactory by instance()
+    private var tv: MutableList<TV> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,18 +34,13 @@ class TVFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            val tvAdapter = TvAdapter()
-            val viewModel = ViewModelProvider(
+            tvAdapter = TvAdapter()
+            viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                viewModelFactory
             ).get(TvViewModel::class.java)
 
-            val tv = viewModel.getTv()
-            if (tv.isEmpty()) {
-                dataIsEmpty()
-            }
-
-            tvAdapter.setListTv(tv)
+            observeTv()
 
             with(rv_tv) {
                 layoutManager = LinearLayoutManager(context)
@@ -44,9 +50,22 @@ class TVFragment : Fragment() {
         }
     }
 
-    private fun dataIsEmpty() {
-        rv_tv.visibility = View.GONE
-        img_no_data.visibility = View.VISIBLE
+    private fun observeTv() {
+        showProgressBar()
+        viewModel.getTv().observe(viewLifecycleOwner, {
+            tv.addAll(it)
+            tvAdapter.setListTv(tv)
+            tvAdapter.notifyDataSetChanged()
+            hideProgressBar()
+        })
+    }
+
+    private fun showProgressBar() {
+        progress_bar.visibility = View.VISIBLE
+    }
+
+    private fun hideProgressBar() {
+        progress_bar.visibility = View.GONE
     }
 
 }

@@ -8,9 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rasyidin.moviesapp.R
+import com.rasyidin.moviesapp.data.remote.movies.Movie
+import com.rasyidin.moviesapp.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.x.kodein
+import org.kodein.di.generic.instance
 
-class MovieFragment : Fragment() {
+class MovieFragment : Fragment(), KodeinAware {
+
+    private lateinit var viewModel: MovieViewModel
+    private lateinit var movieAdapter: MovieAdapter
+    override val kodein by kodein()
+    private val viewModelFactory: ViewModelFactory by instance()
+    private var movies: MutableList<Movie> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,19 +34,13 @@ class MovieFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            val viewModel = ViewModelProvider(
+            movieAdapter = MovieAdapter()
+            viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                viewModelFactory
             ).get(MovieViewModel::class.java)
 
-            val movies = viewModel.getMovies()
-
-            if (movies.isEmpty()) {
-                dataIsEmpty()
-            }
-
-            val movieAdapter = MovieAdapter()
-            movieAdapter.setMovies(movies)
+            observeMovies()
 
             with(rv_movies) {
                 layoutManager = LinearLayoutManager(context)
@@ -46,9 +51,22 @@ class MovieFragment : Fragment() {
 
     }
 
-    private fun dataIsEmpty() {
-        rv_movies.visibility = View.GONE
-        img_no_data.visibility = View.VISIBLE
+    private fun observeMovies() {
+        showProgressBar()
+        viewModel.getMovies().observe(viewLifecycleOwner, {
+            movies.addAll(it)
+            movieAdapter.setMovies(movies)
+            movieAdapter.notifyDataSetChanged()
+            hideProgressBar()
+        })
+    }
+
+    private fun hideProgressBar() {
+        progress_bar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        progress_bar.visibility = View.VISIBLE
     }
 
 }
