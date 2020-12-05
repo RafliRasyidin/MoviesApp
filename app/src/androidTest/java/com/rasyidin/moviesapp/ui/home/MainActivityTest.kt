@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.pressBack
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -88,5 +89,50 @@ class MainActivityTest {
         onView(withId(R.id.tv_genres)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_overview)).check(matches(isDisplayed()))
         onView(withId(R.id.img_detail)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun loadFavoriteMovies() {
+        onView(withId(R.id.rv_movies)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.action_set_fav)).perform(click())
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.action_fav)).perform(click())
+        onView(withId(R.id.rv_fav_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_fav_movies)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun loadFavoriteTv() {
+        onView(withText("TV")).perform(click())
+        onView(withId(R.id.rv_tv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.action_set_fav)).perform(click())
+        onView(isRoot()).perform(pressBack())
+        onView(withId(R.id.action_fav)).perform(click())
+        onView(withText("TV")).perform(click())
+        onView(withId(R.id.rv_fav_tv)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_fav_tv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
+
     }
 }
