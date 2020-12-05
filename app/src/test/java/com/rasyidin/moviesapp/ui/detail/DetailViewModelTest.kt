@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
 import com.rasyidin.moviesapp.data.remote.movies.detail.DetailMovieResponse
-import com.rasyidin.moviesapp.data.remote.repository.RemoteRepository
+import com.rasyidin.moviesapp.data.repository.MovieCatalogueRepository
 import com.rasyidin.moviesapp.data.remote.tv.detail.DetailTVResponse
+import com.rasyidin.moviesapp.data.vo.Resource
 import com.rasyidin.moviesapp.utils.DataDummy
 import org.junit.Assert
 import org.junit.Before
@@ -25,19 +26,19 @@ class DetailViewModelTest {
     @JvmField
     var instantTaskExecutorRule = InstantTaskExecutorRule()
     private lateinit var viewModel: DetailViewModel
-    private var dummyMovie = DataDummy.generateDummyDetailMovie()
-    private val movieId = dummyMovie.id
-    private var dummyTv = DataDummy.generateDummyDetailTv()
-    private val tvId = dummyTv.id
+    private var dummyMovie = Resource.success(DataDummy.generateDummyDetailMovie())
+    private val movieId = dummyMovie.body?.id
+    private var dummyTv = Resource.success(DataDummy.generateDummyDetailTv())
+    private val tvId = dummyTv.body?.id
 
     @Mock
-    private val repository = mock(RemoteRepository::class.java)
+    private val repository = mock(MovieCatalogueRepository::class.java)
 
     @Mock
-    private lateinit var movieObserver: Observer<DetailMovieResponse>
+    private lateinit var movieObserver: Observer<Resource<DetailMovieResponse>>
 
     @Mock
-    private lateinit var tvObserver: Observer<DetailTVResponse>
+    private lateinit var tvObserver: Observer<Resource<DetailTVResponse>>
 
     @Before
     fun setUp() {
@@ -46,14 +47,13 @@ class DetailViewModelTest {
 
     @Test
     fun testGetDetailMovie() {
-        val movie = MutableLiveData<DetailMovieResponse>()
+        val movie = MutableLiveData<Resource<DetailMovieResponse>>()
 
         movie.postValue(dummyMovie)
         `when`(repository.getDetailMovie(movieId)).thenReturn(movie)
         val movieEntities = viewModel.getDetailMovie(movieId).value
 
         Assert.assertNotNull(movieEntities)
-        Assert.assertEquals(dummyMovie.title, movieEntities?.title)
         viewModel.getDetailMovie(movieId).observeForever(movieObserver)
         verify(movieObserver).onChanged(dummyMovie)
 
@@ -61,14 +61,13 @@ class DetailViewModelTest {
 
     @Test
     fun testGetDetailTv() {
-        val tv = MutableLiveData<DetailTVResponse>()
+        val tv = MutableLiveData<Resource<DetailTVResponse>>()
 
         tv.postValue(dummyTv)
         `when`(repository.getDetailTV(tvId)).thenReturn(tv)
         val tvEntities = viewModel.getDetailTv(tvId).value
 
         Assert.assertNotNull(tvEntities)
-        Assert.assertEquals(dummyTv.name, tvEntities?.name)
         viewModel.getDetailTv(tvId).observeForever(tvObserver)
         verify(tvObserver).onChanged(dummyTv)
     }

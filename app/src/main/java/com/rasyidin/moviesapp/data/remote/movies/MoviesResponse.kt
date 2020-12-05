@@ -1,6 +1,7 @@
 package com.rasyidin.moviesapp.data.remote.movies
 
 import com.google.gson.annotations.SerializedName
+import com.rasyidin.moviesapp.data.local.entity.Movie
 
 data class MoviesResponse(
 
@@ -8,6 +9,6 @@ data class MoviesResponse(
     val page: Int? = null,
 
     @field:SerializedName("results")
-    val results: MutableList<Movie>,
+    val results: List<Movie>
 
-    )
+)

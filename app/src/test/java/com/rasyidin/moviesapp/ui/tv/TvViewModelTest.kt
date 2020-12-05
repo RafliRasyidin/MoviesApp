@@ -4,10 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import com.rasyidin.moviesapp.data.remote.repository.RemoteRepository
-import com.rasyidin.moviesapp.data.remote.tv.TV
+import com.rasyidin.moviesapp.data.local.entity.TV
+import com.rasyidin.moviesapp.data.repository.MovieCatalogueRepository
+import com.rasyidin.moviesapp.data.vo.Resource
 import com.rasyidin.moviesapp.utils.DataDummy
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
@@ -27,10 +27,10 @@ class TvViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private val repository = Mockito.mock(RemoteRepository::class.java)
+    private val repository = Mockito.mock(MovieCatalogueRepository::class.java)
 
     @Mock
-    private lateinit var observer: Observer<List<TV>>
+    private lateinit var observer: Observer<Resource<List<TV>>>
 
     @Before
     fun setUp() {
@@ -39,15 +39,14 @@ class TvViewModelTest {
 
     @Test
     fun testGetTv() {
-        val dummyTv = DataDummy.generateDummyTv()
-        val tv = MutableLiveData<List<TV>>()
+        val dummyTv = Resource.success(DataDummy.generateDummyTv())
+        val tv = MutableLiveData<Resource<List<TV>>>()
 
-        tv.postValue(dummyTv)
+        tv.value = dummyTv
         `when`(repository.getTV()).thenReturn(tv)
         val listMovies = viewModel.getTv().value
-        verify<RemoteRepository>(repository).getTV()
+        verify<MovieCatalogueRepository>(repository).getTV()
         assertNotNull(listMovies)
-        assertEquals(dummyTv.size, listMovies?.size)
         viewModel.getTv().observeForever(observer)
         verify(observer).onChanged(dummyTv)
 

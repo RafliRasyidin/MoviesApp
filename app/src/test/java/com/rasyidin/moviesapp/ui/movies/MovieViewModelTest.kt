@@ -4,8 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import com.rasyidin.moviesapp.data.remote.movies.Movie
-import com.rasyidin.moviesapp.data.remote.repository.RemoteRepository
+import com.rasyidin.moviesapp.data.local.entity.Movie
+import com.rasyidin.moviesapp.data.repository.MovieCatalogueRepository
+import com.rasyidin.moviesapp.data.vo.Resource
 import com.rasyidin.moviesapp.utils.DataDummy
 import org.junit.Assert
 import org.junit.Before
@@ -25,10 +26,10 @@ class MovieViewModelTest {
     @get:Rule
     var instantTaskExecutor = InstantTaskExecutorRule()
 
-    private val repository = Mockito.mock(RemoteRepository::class.java)
+    private val repository = Mockito.mock(MovieCatalogueRepository::class.java)
 
     @Mock
-    private lateinit var observer: Observer<List<Movie>>
+    private lateinit var observer: Observer<Resource<List<Movie>>>
 
     @Before
     fun setUp() {
@@ -37,15 +38,14 @@ class MovieViewModelTest {
 
     @Test
     fun testGetMovies() {
-        val dummyMovies = DataDummy.generateDummyMovies()
-        val movies = MutableLiveData<List<Movie>>()
-
+        val dummyMovies = Resource.success(DataDummy.generateDummyMovies())
+        val movies = MutableLiveData<Resource<List<Movie>>>()
         movies.postValue(dummyMovies)
+
         `when`(repository.getMovies()).thenReturn(movies)
         val listMovies = viewModel.getMovies().value
-        verify<RemoteRepository>(repository).getMovies()
+        verify<MovieCatalogueRepository>(repository).getMovies()
         Assert.assertNotNull(listMovies)
-        Assert.assertEquals(dummyMovies.size, listMovies?.size)
         viewModel.getMovies().observeForever(observer)
         verify(observer).onChanged(dummyMovies)
     }
