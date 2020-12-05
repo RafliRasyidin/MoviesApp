@@ -1,8 +1,15 @@
-package com.rasyidin.moviesapp.data.remote.movies
+package com.rasyidin.moviesapp.data.local.entity
 
+import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Entity(tableName = "favMovies")
+@Parcelize
 data class Movie(
+    @PrimaryKey
     @field:SerializedName("id")
     val id: Int? = null,
 
@@ -17,4 +24,4 @@ data class Movie(
 
     @field:SerializedName("vote_average")
     val voteAverage: Double? = null,
-)
+) : Parcelable
