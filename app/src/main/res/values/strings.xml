@@ -4,4 +4,5 @@
     <string name="movies">Movies</string>
     <string name="tv">TV</string>
     <string name="popularity">Popularity</string>
+    <string name="favorite">Favorite</string>
 </resources>
