@@ -9,10 +9,11 @@ import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.ui.movies.MovieFragment
 import com.rasyidin.moviesapp.ui.tv.TVFragment
 
-class SectionPagerAdapter(private val context: Context, fragmentManager: FragmentManager
+class SectionPagerAdapter(
+    private val context: Context, fragmentManager: FragmentManager
 ) : FragmentPagerAdapter(
-        fragmentManager,
-        BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+    fragmentManager,
+    BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
 ) {
 
     companion object {
@@ -23,12 +24,12 @@ class SectionPagerAdapter(private val context: Context, fragmentManager: Fragmen
     override fun getCount(): Int = TAB_TITLES.size
 
     override fun getItem(position: Int): Fragment =
-            when (position) {
-                0 -> MovieFragment()
-                1 -> TVFragment()
-                else -> Fragment()
-            }
+        when (position) {
+            0 -> MovieFragment()
+            1 -> TVFragment()
+            else -> Fragment()
+        }
 
-    override fun getPageTitle(position: Int): CharSequence? =
-            context.resources.getString(TAB_TITLES[position])
+    override fun getPageTitle(position: Int): CharSequence =
+        context.resources.getString(TAB_TITLES[position])
 }

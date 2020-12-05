@@ -4,24 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.remote.movies.Movie
+import com.rasyidin.moviesapp.data.vo.StatusResponse
 import com.rasyidin.moviesapp.ui.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_movies.*
+import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 class MovieFragment : Fragment(), KodeinAware {
 
+    override val kodein: Kodein by kodein()
     private lateinit var viewModel: MovieViewModel
     private lateinit var movieAdapter: MovieAdapter
-    override val kodein by kodein()
     private val viewModelFactory: ViewModelFactory by instance()
-    private var movies: MutableList<Movie> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,12 +53,19 @@ class MovieFragment : Fragment(), KodeinAware {
     }
 
     private fun observeMovies() {
-        showProgressBar()
         viewModel.getMovies().observe(viewLifecycleOwner, {
-            movies.addAll(it)
-            movieAdapter.setMovies(movies)
-            movieAdapter.notifyDataSetChanged()
-            hideProgressBar()
+            when (it.status) {
+                StatusResponse.LOADING -> showProgressBar()
+                StatusResponse.SUCCESS -> {
+                    hideProgressBar()
+                    movieAdapter.setMovies(it.body)
+                    movieAdapter.notifyDataSetChanged()
+                }
+                StatusResponse.ERROR -> {
+                    hideProgressBar()
+                    Toast.makeText(context, "Something mistakes", Toast.LENGTH_SHORT).show()
+                }
+            }
         })
     }
 

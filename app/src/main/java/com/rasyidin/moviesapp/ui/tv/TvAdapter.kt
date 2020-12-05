@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.remote.tv.TV
+import com.rasyidin.moviesapp.data.local.entity.TV
 import com.rasyidin.moviesapp.ui.detail.DetailActivity
 import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_TV
 import com.rasyidin.moviesapp.utils.ConstantValue
@@ -40,13 +40,13 @@ class TvAdapter :
     }
 
     inner class TvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tv: TV) {
+        fun bind(tv: TV?) {
             with(itemView) {
-                tv_title.text = tv.name
-                tv_release.text = tv.firstAirDate
-                tv_rate.text = tv.voteAverage.toString()
+                tv_title.text = tv?.name
+                tv_release.text = tv?.firstAirDate
+                tv_rate.text = tv?.voteAverage.toString()
                 Glide.with(context)
-                    .load(ConstantValue.BASE_URL_IMAGE + tv.posterPath)
+                    .load(ConstantValue.BASE_URL_IMAGE + tv?.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_broken_image_black)
@@ -55,7 +55,7 @@ class TvAdapter :
 
                 setOnClickListener {
                     val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.EXTRA_DETAIL, tv.id)
+                        putExtra(DetailActivity.EXTRA_TV, tv)
                         putExtra(DetailActivity.EXTRA_TYPE, TYPE_TV)
                     }
                     context.startActivity(intent)
