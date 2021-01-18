@@ -6,9 +6,7 @@ import com.rasyidin.moviesapp.core.data.source.remote.network.ApiResponse
 import com.rasyidin.moviesapp.core.data.source.remote.response.tv.TVResponse
 import com.rasyidin.moviesapp.core.utils.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 
 class TvDataSource {
 
@@ -24,12 +22,15 @@ class TvDataSource {
                 val data = response.results
                 if (data.isNotEmpty()) {
                     emit(ApiResponse.Success(response.results))
+                    EspressoIdlingResource.decrement()
                 } else {
                     emit(ApiResponse.Empty)
+                    EspressoIdlingResource.decrement()
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.message.toString()))
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -40,8 +41,10 @@ class TvDataSource {
             try {
                 val response = ApiConfig.getApiService().getTVDetail(tvId)
                 emit(response)
+                EspressoIdlingResource.decrement()
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -54,9 +57,11 @@ class TvDataSource {
                 val data = response.results
                 if (data.isNotEmpty()) {
                     emit(response.results)
+                    EspressoIdlingResource.decrement()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }

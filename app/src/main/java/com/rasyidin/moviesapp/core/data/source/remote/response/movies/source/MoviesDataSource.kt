@@ -24,12 +24,15 @@ class MoviesDataSource {
                 val dataArray = response.results
                 if (dataArray.isNotEmpty()) {
                     emit(ApiResponse.Success(response.results))
+                    EspressoIdlingResource.decrement()
                 } else {
                     emit(ApiResponse.Empty)
+                    EspressoIdlingResource.decrement()
                 }
             } catch (e: Exception) {
                 emit(ApiResponse.Error(e.message.toString()))
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -42,9 +45,11 @@ class MoviesDataSource {
                 val data = response.results
                 if (data.isNotEmpty()) {
                     emit(response.results)
+                    EspressoIdlingResource.decrement()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -57,6 +62,7 @@ class MoviesDataSource {
                 emit(response)
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)
     }
