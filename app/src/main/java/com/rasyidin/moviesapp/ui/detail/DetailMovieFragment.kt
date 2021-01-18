@@ -9,9 +9,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.core.utils.ConstantValue
 import com.rasyidin.moviesapp.databinding.FragmentDetailBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {

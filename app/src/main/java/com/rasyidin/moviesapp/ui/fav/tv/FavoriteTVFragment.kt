@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.ui.adapters.FavTVAdapter
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentFavoriteTVBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import com.rasyidin.moviesapp.ui.fav.FavViewModel
 import org.koin.android.viewmodel.ext.android.viewModel

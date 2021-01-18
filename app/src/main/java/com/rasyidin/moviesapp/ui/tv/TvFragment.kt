@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.data.vo.Resource
 import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.ui.adapters.TvAdapter
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentTvBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import kotlinx.android.synthetic.main.fragment_tv.*
 import org.koin.android.viewmodel.ext.android.viewModel

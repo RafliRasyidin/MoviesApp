@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.ui.adapters.FavMovieAdapter
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentFavoriteMoviesBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
 import com.rasyidin.moviesapp.ui.fav.FavViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,10 +22,6 @@ class FavoriteMoviesFragment :
     private val viewModel: FavViewModel by viewModel()
 
     private val favMovieAdapter by lazy { FavMovieAdapter { navigateToDetail(it) } }
-
-    companion object {
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

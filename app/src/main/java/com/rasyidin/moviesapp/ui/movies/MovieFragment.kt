@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.data.vo.Resource
 import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.ui.adapters.MovieAdapter
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentMoviesBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment.Companion.MOVIE_KEY
 import kotlinx.android.synthetic.main.fragment_movies.*

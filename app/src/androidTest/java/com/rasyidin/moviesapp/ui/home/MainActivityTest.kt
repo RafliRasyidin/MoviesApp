@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.utils.EspressoIdlingResource
+import com.rasyidin.moviesapp.ui.MainActivity
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

@@ -8,8 +8,8 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
+import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentDetailBinding
-import com.rasyidin.moviesapp.ui.base.BaseFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailTvFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_detail) {
