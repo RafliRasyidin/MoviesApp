@@ -10,8 +10,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.rule.ActivityTestRule
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.utils.DataDummy
-import com.rasyidin.moviesapp.utils.EspressoIdlingResource
+import com.rasyidin.moviesapp.core.utils.EspressoIdlingResource
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -19,9 +18,6 @@ import org.junit.Test
 
 
 class MainActivityTest {
-
-    private val dummyMovies = DataDummy.generateDummyMovies()
-    private val dummyTv = DataDummy.generateDummyTv()
 
     @get:Rule
     var activityRule = ActivityTestRule(MainActivity::class.java)
@@ -39,11 +35,6 @@ class MainActivityTest {
     @Test
     fun loadMovies() {
         onView(withId(R.id.rv_movies)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_movies)).perform(
-            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyMovies.size
-            )
-        )
     }
 
     @Test
@@ -67,11 +58,6 @@ class MainActivityTest {
     fun loadTv() {
         onView(withText("TV")).perform(click())
         onView(withId(R.id.rv_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_tv)).perform(
-            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyTv.size
-            )
-        )
     }
 
     @Test

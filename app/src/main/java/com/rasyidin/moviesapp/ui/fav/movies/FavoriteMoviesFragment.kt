@@ -1,54 +1,56 @@
 package com.rasyidin.moviesapp.ui.fav.movies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.ui.ViewModelFactory
+import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.databinding.FragmentFavoriteMoviesBinding
+import com.rasyidin.moviesapp.ui.base.BaseFragment
+import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
 import com.rasyidin.moviesapp.ui.fav.FavViewModel
-import kotlinx.android.synthetic.main.fragment_favorite_movies.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class FavoriteMoviesFragment : Fragment(), KodeinAware {
+class FavoriteMoviesFragment :
+    BaseFragment<FragmentFavoriteMoviesBinding>(R.layout.fragment_favorite_movies) {
 
-    override val kodein: Kodein by kodein()
-    private lateinit var viewModel: FavViewModel
-    private lateinit var favMovieAdapter: FavMovieAdapter
-    private val viewModelFactory: ViewModelFactory by instance()
+    private val viewModel: FavViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_movies, container, false)
+    private val favMovieAdapter by lazy { FavMovieAdapter { navigateToDetail(it) } }
+
+    companion object {
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        itemTouchHelper.attachToRecyclerView(rv_fav_movies)
-        if (activity != null) {
-            favMovieAdapter = FavMovieAdapter()
-            viewModel = ViewModelProvider(this, viewModelFactory).get(FavViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        itemTouchHelper.attachToRecyclerView(binding.rvFavMovies)
 
-            observeFavMovies()
+        setupRecyclerView()
 
-            with(rv_fav_movies) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = favMovieAdapter
-                setHasFixedSize(true)
-            }
+        observeFavMovies()
+    }
+
+    private fun setupRecyclerView() = binding.rvFavMovies.apply {
+        layoutManager = GridLayoutManager(context, 3)
+        adapter = favMovieAdapter
+        setHasFixedSize(true)
+    }
+
+    private fun navigateToDetail(movie: Movie) {
+        val bundle = Bundle().apply {
+            putSerializable(DetailMovieFragment.MOVIE_TYPE, movie)
+            putInt(DetailMovieFragment.MOVIE_TYPE, DetailMovieFragment.FAVORITE_MOVIE_KEY)
         }
+        findNavController().navigate(
+            R.id.action_favoriteFragment_to_detailFragment,
+            bundle
+        )
+
     }
 
     private fun observeFavMovies() {
@@ -61,7 +63,7 @@ class FavoriteMoviesFragment : Fragment(), KodeinAware {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
-        ): Int = makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        ): Int = makeMovementFlags(0, ItemTouchHelper.RIGHT)
 
         override fun onMove(
             recyclerView: RecyclerView,
@@ -72,12 +74,12 @@ class FavoriteMoviesFragment : Fragment(), KodeinAware {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val swipedPosition = viewHolder.adapterPosition
             val movie = favMovieAdapter.getSwipeData(swipedPosition)
-            movie?.let { viewModel.removeFavMovie(movie) }
-
+            movie?.let { viewModel.setFavMovie(movie, false) }
             val snackbar =
                 Snackbar.make(view as View, "Removed from favorite", Snackbar.LENGTH_LONG)
+
             snackbar.setAction("UNDO") {
-                movie?.let { viewModel.setFavMovie(movie) }
+                movie?.let { viewModel.setFavMovie(movie, true) }
             }
             snackbar.show()
         }

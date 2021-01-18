@@ -1,28 +1,47 @@
 package com.rasyidin.moviesapp.ui.tv
 
-import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.local.entity.TV
-import com.rasyidin.moviesapp.ui.detail.DetailActivity
-import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_TV
-import com.rasyidin.moviesapp.utils.ConstantValue
-import kotlinx.android.synthetic.main.item_film.view.*
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.utils.ConstantValue
+import com.rasyidin.moviesapp.databinding.ItemFilmBinding
+import com.rasyidin.moviesapp.ui.base.BaseAdapter
 
-class TvAdapter :
-    RecyclerView.Adapter<TvAdapter.TvViewHolder>() {
+class TvAdapter : BaseAdapter<TV>(R.layout.item_film) {
 
-    private val listTv = ArrayList<TV>()
+    override val data: ArrayList<TV> = ArrayList()
 
-    fun setListTv(tv: List<TV>?) {
-        if (tv.isNullOrEmpty()) return
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        val list = data[position]
+        val binding = ItemFilmBinding.bind(holder.itemView)
+        binding.apply {
+            tvTitle.text = list.name
+            tvRelease.text = list.firstAirDate
+            tvRate.text = list.voteAverage.toString()
+
+            Glide.with(holder.itemView.context)
+                .load(ConstantValue.BASE_URL_IMAGE + list.posterPath)
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_broken_image_black)
+                )
+                .into(imgMovie)
+
+            root.setOnClickListener {
+                onItemClickListener?.let { click ->
+                    click(list)
+                }
+            }
+        }
+    }
+
+    /*private val listTv = ArrayList<TVEntity>()
+
+    fun setListTv(tvEntity: List<TVEntity>?) {
+        if (tvEntity.isNullOrEmpty()) return
         listTv.clear()
-        listTv.addAll(tv)
+        listTv.addAll(tvEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvViewHolder {
@@ -39,28 +58,30 @@ class TvAdapter :
         return listTv.size
     }
 
+    var onItemClickListener: ((TVEntity) -> Unit)? = null
+
     inner class TvViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tv: TV?) {
-            with(itemView) {
-                tv_title.text = tv?.name
-                tv_release.text = tv?.firstAirDate
-                tv_rate.text = tv?.voteAverage.toString()
-                Glide.with(context)
-                    .load(ConstantValue.BASE_URL_IMAGE + tv?.posterPath)
+        private val binding = ItemFilmBinding.bind(itemView)
+        fun bind(tvEntity: TVEntity?) {
+            with(binding) {
+                tvTitle.text = tvEntity?.name
+                tvRelease.text = tvEntity?.firstAirDate
+                tvRate.text = tvEntity?.voteAverage.toString()
+                Glide.with(itemView.context)
+                    .load(ConstantValue.BASE_URL_IMAGE + tvEntity?.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_broken_image_black)
                     )
-                    .into(img_movie)
+                    .into(binding.imgMovie)
 
-                setOnClickListener {
-                    val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.EXTRA_TV, tv)
-                        putExtra(DetailActivity.EXTRA_TYPE, TYPE_TV)
-                    }
-                    context.startActivity(intent)
-                }
             }
         }
-    }
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(listTv[adapterPosition])
+            }
+        }
+    }*/
 }

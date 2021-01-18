@@ -1,25 +1,19 @@
 package com.rasyidin.moviesapp.ui.fav.tv
 
-import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.local.entity.TV
-import com.rasyidin.moviesapp.ui.detail.DetailActivity
-import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.EXTRA_TV
-import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.EXTRA_TYPE
-import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_TV
-import com.rasyidin.moviesapp.utils.ConstantValue
-import kotlinx.android.synthetic.main.item_film.view.*
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.utils.ConstantValue
+import com.rasyidin.moviesapp.databinding.ItemFilmBinding
+import com.rasyidin.moviesapp.ui.base.BasePagedListAdapter
 
-class FavTVAdapter internal constructor() :
-    PagedListAdapter<TV, FavTVAdapter.TVViewHolder>(DIFF_CALLBACK) {
+class FavTVAdapter(onClick: (TV) -> Unit) :
+    BasePagedListAdapter<TV>(diffUtil = DIFF_CALLBACK, onClick = onClick) {
+
+    override val getLayoutIdRes: Int
+        get() = R.layout.item_film
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TV>() {
@@ -33,42 +27,23 @@ class FavTVAdapter internal constructor() :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_film, parent, false)
-        return TVViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: TVViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val tv = getItem(position)
-        if (tv != null) {
-            holder.bind(tv)
+        val binding = ItemFilmBinding.bind(holder.itemView)
+        binding.apply {
+            tvTitle.text = tv?.name
+            tvRelease.text = tv?.firstAirDate
+            tvRate.text = tv?.voteAverage.toString()
+            Glide.with(root.context)
+                .load(ConstantValue.BASE_URL_IMAGE + tv?.posterPath)
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_broken_image_black)
+                )
+                .into(imgMovie)
+
+            root.setOnClickListener { onItemClick(tv) }
         }
     }
 
-    inner class TVViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(tv: TV) {
-            with(itemView) {
-                tv_title.text = tv.name
-                tv_release.text = tv.firstAirDate
-                tv_rate.text = tv.voteAverage.toString()
-                Glide.with(context)
-                    .load(ConstantValue.BASE_URL_IMAGE + tv.posterPath)
-                    .apply(
-                        RequestOptions.placeholderOf(R.drawable.ic_loading)
-                            .error(R.drawable.ic_broken_image_black)
-                    )
-                    .into(img_movie)
-
-                setOnClickListener {
-                    val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(EXTRA_TV, tv)
-                        putExtra(EXTRA_TYPE, TYPE_TV)
-                    }
-                    context.startActivity(intent)
-                }
-            }
-        }
-    }
-
-    fun getSwipeData(swipedPosition: Int): TV? = getItem(swipedPosition)
 }

@@ -1,46 +1,54 @@
 package com.rasyidin.moviesapp.ui.detail
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.rasyidin.moviesapp.data.local.entity.Movie
-import com.rasyidin.moviesapp.data.local.entity.TV
-import com.rasyidin.moviesapp.data.repository.MovieCatalogueRepository
-import kotlinx.coroutines.Dispatchers
+import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.domain.usecase.movie.MovieUseCase
+import com.rasyidin.moviesapp.core.domain.usecase.tv.TVUseCase
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
-class DetailViewModel(private val repository: MovieCatalogueRepository) : ViewModel() {
+class DetailViewModel(private val movieUseCase: MovieUseCase, private val tvUseCase: TVUseCase) :
+    ViewModel() {
 
-    fun getDetailMovie(movieId: Int?) = repository.getDetailMovie(movieId)
+    private val _detailMovie = MutableLiveData<Movie>()
+    val detailMovie: LiveData<Movie> get() = _detailMovie
 
-    fun getDetailTv(tvId: Int?) = repository.getDetailTV(tvId)
+    private val _detailTv = MutableLiveData<TV>()
+    val detailTv: LiveData<TV> get() = _detailTv
 
-    fun setFavMovie(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) { repository.setFavMovie(movie) }
-    }
-
-    fun setFavTv(tv: TV) {
-        viewModelScope.launch(Dispatchers.IO) { repository.setFavTv(tv) }
-    }
-
-    fun removeFavMovie(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeFavMovie(movie)
+    fun getDetailMovie(movieId: Int?) {
+        viewModelScope.launch {
+            movieUseCase.getDetailMovie(movieId)
+                .collect {
+                    _detailMovie.postValue(it)
+                }
         }
     }
 
-    fun removeFavTv(tv: TV) {
-        viewModelScope.launch(Dispatchers.IO) { repository.removeFavTv(tv) }
+    fun getDetailTv(tvId: Int?) {
+        viewModelScope.launch {
+            tvUseCase.getDetailTV(tvId)
+                .collect {
+                    _detailTv.postValue(it)
+                }
+        }
     }
 
-    fun isFavoritedMovie(movie: Movie?): Boolean =
-        runBlocking {
-            repository.isFavoritedMovie(movie)
+    fun getDetailMovieByIdFromDb(movieId: Int?) {
+        viewModelScope.launch {
+            movieUseCase.getDetailMovieByIdFromDb(movieId)
+                .collect {
+                    _detailMovie.postValue(it)
+                }
         }
+    }
 
-    fun isFavoritedTv(tv: TV?): Boolean =
-        runBlocking {
-            repository.isFavoritedTv(tv)
-        }
+    fun setFavMovie(movie: Movie, state: Boolean) = movieUseCase.setFavMovie(movie, state)
+
+    fun setFavTv(tv: TV, state: Boolean) = tvUseCase.setFavTv(tv, state)
 
 }

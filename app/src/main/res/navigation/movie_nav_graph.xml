@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_nav_graph"
+    app:startDestination="@id/movieFragment">
+
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="com.rasyidin.moviesapp.ui.movies.MovieFragment"
+        android:label="fragment_movies"
+        tools:layout="@layout/fragment_movies">
+        <action
+            android:id="@+id/action_movieFragment_to_detailFragment"
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/TVFragment"
+        android:name="com.rasyidin.moviesapp.ui.tv.TVFragment"
+        android:label="fragment_tv"
+        tools:layout="@layout/fragment_tv">
+        <action
+            android:id="@+id/action_TVFragment_to_detailTvFragment"
+            app:destination="@id/detailTvFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.rasyidin.moviesapp.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.rasyidin.moviesapp.ui.fav.FavoriteFragment"
+        android:label="FavoriteFragment">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailTvFragment"
+            app:destination="@id/detailTvFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.rasyidin.moviesapp.ui.detail.DetailMovieFragment"
+        android:label="DetailFragment">
+        <argument
+            android:name="detailMovie"
+            app:argType="com.rasyidin.moviesapp.core.domain.model.Movie" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailTvFragment"
+        android:name="com.rasyidin.moviesapp.ui.detail.DetailTvFragment"
+        android:label="DetailTvFragment">
+        <argument
+            android:name="detailTv"
+            app:argType="com.rasyidin.moviesapp.core.domain.model.TV" />
+    </fragment>
+</navigation>

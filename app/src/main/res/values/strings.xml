@@ -5,4 +5,17 @@
     <string name="tv">TV</string>
     <string name="popularity">Popularity</string>
     <string name="favorite">Favorite</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="what_do_you_like_to_watch">WHAT DO YOU LIKE TO WATCH?</string>
+    <string name="search">Search</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="on_the_air">On The Air</string>
+    <string name="airing_today">Airing Today</string>
+    <string name="title">Title</string>
+    <string name="overview">Overview</string>
+    <string name="profile">Profile</string>
 </resources>

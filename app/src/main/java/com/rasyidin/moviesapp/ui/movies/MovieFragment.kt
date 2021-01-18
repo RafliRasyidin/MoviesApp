@@ -1,72 +1,76 @@
 package com.rasyidin.moviesapp.ui.movies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.vo.StatusResponse
-import com.rasyidin.moviesapp.ui.ViewModelFactory
+import com.rasyidin.moviesapp.core.data.vo.Resource
+import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.databinding.FragmentMoviesBinding
+import com.rasyidin.moviesapp.ui.base.BaseFragment
+import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
+import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment.Companion.MOVIE_KEY
 import kotlinx.android.synthetic.main.fragment_movies.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class MovieFragment : Fragment(), KodeinAware {
+class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movies) {
 
-    override val kodein: Kodein by kodein()
-    private lateinit var viewModel: MovieViewModel
+    private val viewModel: MovieViewModel by viewModel()
     private lateinit var movieAdapter: MovieAdapter
-    private val viewModelFactory: ViewModelFactory by instance()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movies, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Movies"
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            movieAdapter = MovieAdapter()
-            viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-            ).get(MovieViewModel::class.java)
+        setupRecyclerView()
 
-            observeMovies()
+        subscribeToObservers()
 
-            with(rv_movies) {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = movieAdapter
-            }
+        movieAdapter.setItemClickListener {
+            navigateToDetailMovie(it)
         }
-
     }
 
-    private fun observeMovies() {
-        viewModel.getMovies().observe(viewLifecycleOwner, {
-            when (it.status) {
-                StatusResponse.LOADING -> showProgressBar()
-                StatusResponse.SUCCESS -> {
+    private fun setupRecyclerView() = binding.rvMovies.apply {
+        movieAdapter = MovieAdapter()
+        layoutManager = GridLayoutManager(requireContext(), 3)
+        adapter = movieAdapter
+        setHasFixedSize(true)
+    }
+
+    private fun subscribeToObservers() {
+        viewModel.getPopularMovies().observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> showProgressBar()
+                is Resource.Success -> {
                     hideProgressBar()
-                    movieAdapter.setMovies(it.body)
-                    movieAdapter.notifyDataSetChanged()
+                    it.data?.let { movies ->
+                        movieAdapter.setList(movies)
+                    }
                 }
-                StatusResponse.ERROR -> {
+                is Resource.Error -> {
                     hideProgressBar()
                     Toast.makeText(context, "Something mistakes", Toast.LENGTH_SHORT).show()
                 }
             }
         })
+    }
+
+    private fun navigateToDetailMovie(movie: Movie) {
+        val bundle = Bundle().apply {
+            putSerializable(DetailMovieFragment.MOVIE_TYPE, movie)
+        }
+        findNavController().navigate(
+            R.id.action_movieFragment_to_detailFragment,
+            bundle
+        )
+        bundle.putInt(DetailMovieFragment.MOVIE_TYPE, MOVIE_KEY)
+        val fragment = Fragment()
+        fragment.arguments = bundle
     }
 
     private fun hideProgressBar() {

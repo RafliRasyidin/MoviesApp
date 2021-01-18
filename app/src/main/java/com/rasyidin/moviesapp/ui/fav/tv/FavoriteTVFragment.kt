@@ -1,55 +1,54 @@
 package com.rasyidin.moviesapp.ui.fav.tv
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.ui.ViewModelFactory
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.databinding.FragmentFavoriteTVBinding
+import com.rasyidin.moviesapp.ui.base.BaseFragment
+import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import com.rasyidin.moviesapp.ui.fav.FavViewModel
-import kotlinx.android.synthetic.main.fragment_favorite_t_v.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class FavoriteTVFragment : Fragment(), KodeinAware {
+class FavoriteTVFragment : BaseFragment<FragmentFavoriteTVBinding>(R.layout.fragment_favorite_t_v) {
 
-    override val kodein: Kodein by kodein()
-    private lateinit var viewModel: FavViewModel
-    private lateinit var favTVAdapter: FavTVAdapter
-    private val viewModelFactory: ViewModelFactory by instance()
+    private val viewModel: FavViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_t_v, container, false)
+    private val favTVAdapter by lazy { FavTVAdapter { navigateToDetail(it) } }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        itemTouchHelper.attachToRecyclerView(binding.rvFavTv)
+
+        setupRecyclerView()
+
+        subscribeToObservers()
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        itemTouchHelper.attachToRecyclerView(rv_fav_tv)
-        if (activity != null) {
-            favTVAdapter = FavTVAdapter()
-            viewModel = ViewModelProvider(this, viewModelFactory).get(FavViewModel::class.java)
-            observeFavTv()
-            with(rv_fav_tv) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = favTVAdapter
-                setHasFixedSize(true)
-            }
+    private fun navigateToDetail(tv: TV) {
+        val bundle = Bundle().apply {
+            putSerializable(DetailTvFragment.DETAIL_TV, tv)
         }
+        findNavController().navigate(
+            R.id.action_favoriteFragment_to_detailTvFragment,
+            bundle
+        )
     }
 
-    private fun observeFavTv() {
+    private fun setupRecyclerView() = binding.rvFavTv.apply {
+        layoutManager = GridLayoutManager(context, 3)
+        adapter = favTVAdapter
+        setHasFixedSize(true)
+    }
+
+    private fun subscribeToObservers() {
         viewModel.getFavTv().observe(viewLifecycleOwner, {
             favTVAdapter.submitList(it)
         })
@@ -59,7 +58,7 @@ class FavoriteTVFragment : Fragment(), KodeinAware {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
-        ): Int = makeMovementFlags(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        ): Int = makeMovementFlags(0, ItemTouchHelper.LEFT)
 
         override fun onMove(
             recyclerView: RecyclerView,
@@ -71,12 +70,12 @@ class FavoriteTVFragment : Fragment(), KodeinAware {
             if (view != null) {
                 val swipedPosition = viewHolder.adapterPosition
                 val tv = favTVAdapter.getSwipeData(swipedPosition)
-                tv?.let { viewModel.removeFavTv(tv) }
-
+                tv?.let { viewModel.setFavTv(tv, false) }
                 val snackbar =
                     Snackbar.make(view as View, "Removed from favorite", Snackbar.LENGTH_LONG)
+
                 snackbar.setAction("UNDO") {
-                    tv?.let { viewModel.setFavTv(tv) }
+                    tv?.let { viewModel.setFavTv(tv, true) }
                 }
                 snackbar.show()
             }

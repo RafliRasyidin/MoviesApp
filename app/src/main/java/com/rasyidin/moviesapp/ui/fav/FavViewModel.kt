@@ -2,35 +2,21 @@ package com.rasyidin.moviesapp.ui.fav
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
-import com.rasyidin.moviesapp.data.local.entity.Movie
-import com.rasyidin.moviesapp.data.local.entity.TV
-import com.rasyidin.moviesapp.data.repository.MovieCatalogueRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.core.domain.usecase.movie.MovieUseCase
+import com.rasyidin.moviesapp.core.domain.usecase.tv.TVUseCase
 
-class FavViewModel(private val repository: MovieCatalogueRepository) : ViewModel() {
+class FavViewModel(private val movieUseCase: MovieUseCase, private val tvUseCase: TVUseCase) :
+    ViewModel() {
 
-    fun getFavMovies(): LiveData<PagedList<Movie>> = repository.getFavMovies()
+    fun getFavMovies(): LiveData<PagedList<Movie>> =
+        movieUseCase.getFavMovies()
 
-    fun getFavTv(): LiveData<PagedList<TV>> = repository.getFavTv()
+    fun getFavTv(): LiveData<PagedList<TV>> = tvUseCase.getFavTv()
 
-    fun removeFavMovie(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.removeFavMovie(movie)
-        }
-    }
+    fun setFavMovie(movie: Movie, state: Boolean) = movieUseCase.setFavMovie(movie, state)
 
-    fun removeFavTv(tv: TV) {
-        viewModelScope.launch(Dispatchers.IO) { repository.removeFavTv(tv) }
-    }
-
-    fun setFavMovie(movie: Movie) {
-        viewModelScope.launch(Dispatchers.IO) { repository.setFavMovie(movie) }
-    }
-
-    fun setFavTv(tv: TV) {
-        viewModelScope.launch(Dispatchers.IO) { repository.setFavTv(tv) }
-    }
+    fun setFavTv(tv: TV, state: Boolean) = tvUseCase.setFavTv(tv, state)
 }

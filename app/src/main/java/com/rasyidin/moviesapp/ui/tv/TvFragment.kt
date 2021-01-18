@@ -1,67 +1,68 @@
 package com.rasyidin.moviesapp.ui.tv
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.vo.StatusResponse
-import com.rasyidin.moviesapp.ui.ViewModelFactory
+import com.rasyidin.moviesapp.core.data.vo.Resource
+import com.rasyidin.moviesapp.core.domain.model.TV
+import com.rasyidin.moviesapp.databinding.FragmentTvBinding
+import com.rasyidin.moviesapp.ui.base.BaseFragment
+import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import kotlinx.android.synthetic.main.fragment_tv.*
-import org.kodein.di.Kodein
-import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.kodein
-import org.kodein.di.generic.instance
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class TVFragment : Fragment(), KodeinAware {
+class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
 
-    override val kodein: Kodein by kodein()
-    private lateinit var viewModel: TvViewModel
-    private lateinit var tvAdapter: TvAdapter
-    private val viewModelFactory: ViewModelFactory by instance()
+    private val viewModel: TvViewModel by viewModel()
+    private lateinit var popularAdapter: TvAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tv, container, false)
-    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "TV Show"
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (activity != null) {
-            tvAdapter = TvAdapter()
-            viewModel = ViewModelProvider(
-                this,
-                viewModelFactory
-            ).get(TvViewModel::class.java)
+        setupRecyclerView()
 
-            observeTv()
+        observePopular()
 
-            with(rv_tv) {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = tvAdapter
-            }
+        popularAdapter.setItemClickListener { selectedData ->
+            navigateToDetail(selectedData)
         }
     }
 
-    private fun observeTv() {
-        viewModel.getTv().observe(viewLifecycleOwner, {
-            when (it.status) {
-                StatusResponse.LOADING -> showProgressBar()
-                StatusResponse.SUCCESS -> {
+    private fun setupRecyclerView() = binding.rvTv.apply {
+        popularAdapter = TvAdapter()
+        layoutManager = GridLayoutManager(context, 3)
+        adapter = popularAdapter
+        setHasFixedSize(true)
+    }
+
+    private fun navigateToDetail(tv: TV) {
+        val bundle = Bundle().apply {
+            putSerializable(DetailTvFragment.DETAIL_TV, tv)
+        }
+        findNavController().navigate(
+            R.id.action_TVFragment_to_detailTvFragment,
+            bundle
+        )
+    }
+
+    private fun observePopular() {
+        viewModel.getPopularTv().observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> showProgressBar()
+                is Resource.Success -> {
                     hideProgressBar()
-                    tvAdapter.setListTv(it.body)
-                    tvAdapter.notifyDataSetChanged()
+                    it.data?.let { listTv ->
+                        popularAdapter.setList(listTv)
+                    }
+                    popularAdapter.notifyDataSetChanged()
 
                 }
-                StatusResponse.ERROR -> {
+                is Resource.Error -> {
                     hideProgressBar()
                     Toast.makeText(context, "Something mistakes", Toast.LENGTH_SHORT).show()
                 }

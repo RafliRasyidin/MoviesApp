@@ -1,27 +1,49 @@
 package com.rasyidin.moviesapp.ui.movies
 
-import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.data.local.entity.Movie
-import com.rasyidin.moviesapp.ui.detail.DetailActivity
-import com.rasyidin.moviesapp.ui.detail.DetailActivity.Companion.TYPE_MOVIE
-import com.rasyidin.moviesapp.utils.ConstantValue
-import kotlinx.android.synthetic.main.item_film.view.*
+import com.rasyidin.moviesapp.core.domain.model.Movie
+import com.rasyidin.moviesapp.core.utils.ConstantValue
+import com.rasyidin.moviesapp.databinding.ItemFilmBinding
+import com.rasyidin.moviesapp.ui.base.BaseAdapter
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.FilmViewHolder>() {
+class MovieAdapter :
+    BaseAdapter<Movie>(R.layout.item_film) {
 
-    private var listMovies = ArrayList<Movie>()
+    override val data: ArrayList<Movie> = ArrayList()
 
-    fun setMovies(movie: List<Movie>?) {
-        if (movie.isNullOrEmpty()) return
+    override fun onBindViewHolder(holderBase: BaseViewHolder, position: Int) {
+        val list = data[position]
+        val binding = ItemFilmBinding.bind(holderBase.itemView)
+        binding.apply {
+            tvTitle.text = list.title
+            tvRate.text = list.voteAverage.toString()
+            tvRelease.text = list.releaseDate
+
+            Glide.with(root.context)
+                .load(ConstantValue.BASE_URL_IMAGE + list.posterPath)
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_broken_image_black)
+                )
+                .into(imgMovie)
+
+            root.setOnClickListener {
+                onItemClickListener?.let { click ->
+                    click(list)
+                }
+            }
+        }
+    }
+
+
+    /*private var listMovies = ArrayList<MovieEntity>()
+
+    fun setMovies(movieEntity: List<MovieEntity>?) {
+        if (movieEntity.isNullOrEmpty()) return
         listMovies.clear()
-        listMovies.addAll(movie)
+        listMovies.addAll(movieEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -37,28 +59,29 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.FilmViewHolder>() {
 
     override fun getItemCount(): Int = listMovies.size
 
+    var onItemClickListener: ((MovieEntity) -> Unit)? = null
+
     inner class FilmViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(movie: Movie?) {
-            with(itemView) {
-                tv_title.text = movie?.title
-                tv_rate.text = movie?.voteAverage.toString()
-                tv_release.text = movie?.releaseDate
-                Glide.with(context)
-                    .load(ConstantValue.BASE_URL_IMAGE + movie?.posterPath)
+        private val binding = ItemFilmBinding.bind(itemView)
+        fun bind(movieEntity: MovieEntity?) {
+            with(binding) {
+                tvTitle.text = movieEntity?.title
+                tvRate.text = movieEntity?.voteAverage.toString()
+                tvRelease.text = movieEntity?.releaseDate
+                Glide.with(itemView.context)
+                    .load(ConstantValue.BASE_URL_IMAGE + movieEntity?.posterPath)
                     .apply(
                         RequestOptions.placeholderOf(R.drawable.ic_loading)
                             .error(R.drawable.ic_broken_image_black)
                     )
-                    .into(img_movie)
-
-                setOnClickListener {
-                    val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra(DetailActivity.EXTRA_MOVIE, movie)
-                        putExtra(DetailActivity.EXTRA_TYPE, TYPE_MOVIE)
-                    }
-                    context.startActivity(intent)
-                }
+                    .into(imgMovie)
             }
         }
-    }
+
+        init {
+            binding.root.setOnClickListener {
+                onItemClickListener?.invoke(listMovies[adapterPosition])
+            }
+        }
+    }*/
 }
