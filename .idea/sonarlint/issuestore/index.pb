@@ -77,8 +77,6 @@ J
 shared_dependencies.gradle,b\e\bea21ad436ad8008e4327b60ad9d3401a26c6abc
 k
 ;app/src/main/java/com/rasyidin/moviesapp/ui/MainActivity.kt,5\6\564e94965c61f86b02adce619306ae29d1fd442c
-Y
-)app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
 €
 Pcore/src/androidTest/java/com/rasyidin/moviesapp/core/ExampleInstrumentedTest.kt,3\e\3e9bd2088df76b541943577ea6feafb31f93e4ae
 †

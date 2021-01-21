@@ -43,11 +43,6 @@ class MovieRepository(
             }
         }.asFlow()
 
-    override suspend fun getDetailMovie(id: Int?): Flow<Movie> =
-        remoteDataSource.getDetailMovie(id).map {
-            DataMapper.mapMovieResponseToMovie(it)
-        }
-
     override suspend fun searchMovies(querySearch: String?): Flow<List<Movie>> =
         remoteDataSource.searchMovies(querySearch).map {
             DataMapper.mapMoviesResponseToMovies(it)

@@ -43,11 +43,6 @@ class TVRepository(
             }
         }.asFlow()
 
-    override suspend fun getDetailTV(id: Int?): Flow<TV> =
-        remoteDataSource.getDetailTv(id).map {
-            DataMapper.mapTvResponseToTv(it)
-        }
-
     override suspend fun searchTv(querySearch: String?): Flow<List<TV>> =
         remoteDataSource.searchTv(querySearch).map {
             DataMapper.mapTVResponseToListTV(it)

@@ -6,9 +6,7 @@ import com.rasyidin.moviesapp.core.data.source.remote.network.ApiService
 import com.rasyidin.moviesapp.core.data.source.remote.response.movies.MoviesResponse
 import com.rasyidin.moviesapp.core.utils.EspressoIdlingResource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 
 class MoviesDataSource(private val apiService: ApiService) {
 
@@ -47,19 +45,6 @@ class MoviesDataSource(private val apiService: ApiService) {
                     emit(response.results)
                     EspressoIdlingResource.decrement()
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, e.toString())
-                EspressoIdlingResource.decrement()
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
-    suspend fun getDetailMovie(movieId: Int?): Flow<MoviesResponse> {
-        EspressoIdlingResource.increment()
-        return flow {
-            try {
-                val response = apiService.getMovieDetail(movieId)
-                emit(response)
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
                 EspressoIdlingResource.decrement()

@@ -11,8 +11,6 @@ interface IMovieRepository {
 
     fun getPopularMovies(): Flow<Resource<List<Movie>>>
 
-    suspend fun getDetailMovie(id: Int?): Flow<Movie>
-
     suspend fun searchMovies(querySearch: String?): Flow<List<Movie>>
 
     fun getFavMovies(): LiveData<PagedList<Movie>>

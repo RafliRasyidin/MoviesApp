@@ -35,20 +35,6 @@ class TvDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getDetailTv(tvId: Int?): Flow<TVResponse> {
-        EspressoIdlingResource.increment()
-        return flow {
-            try {
-                val response = apiService.getTVDetail(tvId)
-                emit(response)
-                EspressoIdlingResource.decrement()
-            } catch (e: Exception) {
-                Log.e(TAG, e.toString())
-                EspressoIdlingResource.decrement()
-            }
-        }.flowOn(Dispatchers.IO)
-    }
-
     suspend fun searchTv(querySearch: String?): Flow<List<TVResponse>> {
         EspressoIdlingResource.increment()
         return flow {

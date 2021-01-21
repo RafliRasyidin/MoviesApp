@@ -12,9 +12,6 @@ class MovieInteractor(private val repository: IMovieRepository) :
     override fun getPopularMovies(): Flow<Resource<List<Movie>>> =
         repository.getPopularMovies()
 
-    override suspend fun getDetailMovie(id: Int?): Flow<Movie> =
-        repository.getDetailMovie(id)
-
     override suspend fun searchMovies(querySearch: String?): Flow<List<Movie>> =
         repository.searchMovies(querySearch)
 
