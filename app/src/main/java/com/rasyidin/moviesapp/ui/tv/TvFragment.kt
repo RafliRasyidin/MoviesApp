@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
@@ -14,8 +15,12 @@ import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentTvBinding
 import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import kotlinx.android.synthetic.main.fragment_tv.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 
+@ExperimentalCoroutinesApi
+@FlowPreview
 class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
 
     private val viewModel: TvViewModel by viewModel()
@@ -32,6 +37,8 @@ class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
         popularAdapter.setItemClickListener { selectedData ->
             navigateToDetail(selectedData)
         }
+
+        searchTv()
     }
 
     private fun setupRecyclerView() = binding.rvTv.apply {
@@ -49,6 +56,21 @@ class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
             R.id.action_TVFragment_to_detailTvFragment,
             bundle
         )
+    }
+
+    private fun searchTv() {
+        binding.etSearchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                findNavController().navigate(
+                    TVFragmentDirections.actionTVFragmentToSearchTvFragment(query)
+                )
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun observePopular() {

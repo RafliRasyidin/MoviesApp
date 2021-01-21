@@ -25,7 +25,4 @@ class MovieInteractor(private val repository: IMovieRepository) :
         repository.setFavMovie(movie, state)
     }
 
-    override fun getDetailMovieByIdFromDb(movieId: Int?): Flow<Movie> =
-        repository.getDetailMovieByIdFromDb(movieId)
-
 }

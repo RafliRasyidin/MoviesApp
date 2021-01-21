@@ -13,23 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:visibility="gone"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/et_search_movie"
-                app:layout_constraintVertical_bias="0.0"
-                tools:listitem="@layout/item_film" />
-
             <TextView
                 android:id="@+id/text_movies"
                 android:layout_width="0dp"
@@ -48,28 +31,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0" />
 
-            <EditText
+            <androidx.appcompat.widget.SearchView
                 android:id="@+id/et_search_movie"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/search_background"
-                android:drawableStart="@drawable/ic_baseline_search_24"
-                android:elevation="4dp"
-                android:hint="@string/search"
-                android:paddingStart="10dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="10dp"
+                android:focusable="false"
                 android:textColorHint="@color/colorPrimaryLight"
                 android:textSize="14sp"
+                app:defaultQueryHint="@string/search"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/text_movies"
                 app:layout_constraintTop_toBottomOf="@+id/text_movies"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                app:queryBackground="@android:color/transparent"
+                app:queryHint="@string/search" />
 
             <TextView
                 android:id="@+id/text_popular"

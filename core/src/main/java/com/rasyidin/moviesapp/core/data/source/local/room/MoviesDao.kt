@@ -1,7 +1,10 @@
 package com.rasyidin.moviesapp.core.data.source.local.room
 
 import androidx.paging.DataSource
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.rasyidin.moviesapp.core.data.source.local.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,13 +17,10 @@ interface MoviesDao {
     @Query("SELECT * FROM favMovies WHERE isFavorite = 1")
     fun getFavMovies(): DataSource.Factory<Int, MovieEntity>
 
-    @Query("SELECT * FROM favMovies WHERE id = :moviesId")
-    fun getFavMoviesById(moviesId: Int?): Flow<MovieEntity>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movieEntity: List<MovieEntity>)
 
-    @Update
-    fun updateFavMovie(movieEntity: MovieEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun upsertFavMovie(movieEntity: MovieEntity)
 
 }

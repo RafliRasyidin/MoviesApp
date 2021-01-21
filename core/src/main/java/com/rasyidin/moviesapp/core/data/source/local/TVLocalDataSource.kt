@@ -15,7 +15,7 @@ class TVLocalDataSource(private val tvDao: TvDao) {
 
     fun setFavoriteTV(tv: TVEntity, newState: Boolean) {
         tv.isFavorite = newState
-        tvDao.updateFavTV(tv)
+        tvDao.upsertFavTV(tv)
     }
 
 }

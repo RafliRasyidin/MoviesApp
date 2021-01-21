@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
@@ -14,10 +14,13 @@ import com.rasyidin.moviesapp.core.ui.adapters.MovieAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentMoviesBinding
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
-import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment.Companion.MOVIE_KEY
 import kotlinx.android.synthetic.main.fragment_movies.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movies) {
 
     private val viewModel: MovieViewModel by viewModel()
@@ -28,12 +31,29 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
         (activity as AppCompatActivity).supportActionBar?.title = "Movies"
 
         setupRecyclerView()
-
+        searchMovies()
         subscribeToObservers()
 
         movieAdapter.setItemClickListener {
             navigateToDetailMovie(it)
         }
+    }
+
+    private fun searchMovies() {
+        binding.etSearchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                findNavController().navigate(
+                    MovieFragmentDirections.actionMovieFragmentToMovieSearchFragment(
+                        query
+                    )
+                )
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
     }
 
     private fun setupRecyclerView() = binding.rvMovies.apply {
@@ -59,6 +79,7 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
                 }
             }
         })
+
     }
 
     private fun navigateToDetailMovie(movie: Movie) {
@@ -69,9 +90,7 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
             R.id.action_movieFragment_to_detailFragment,
             bundle
         )
-        bundle.putInt(DetailMovieFragment.MOVIE_TYPE, MOVIE_KEY)
-        val fragment = Fragment()
-        fragment.arguments = bundle
+
     }
 
     private fun hideProgressBar() {

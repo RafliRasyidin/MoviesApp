@@ -18,25 +18,17 @@ class DetailMovieFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragmen
 
     private val viewModel: DetailViewModel by viewModel()
     private val args: DetailMovieFragmentArgs by navArgs()
-    private var movieId: Int? = null
 
     companion object {
         const val MOVIE_TYPE = "detailMovie"
-        const val MOVIE_KEY = 2
-        const val FAVORITE_MOVIE_KEY = 1
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Detail Movie"
 
-        val type = arguments?.getInt(MOVIE_TYPE, 2)
-
-        if (type == FAVORITE_MOVIE_KEY) {
-            showDetailMovieFromDb()
-        } else if (type == MOVIE_KEY) {
-            showDetailMovie()
-        }
+        val movie = args.detailMovie
+        showDetailMovie(movie)
 
     }
 
@@ -58,31 +50,18 @@ class DetailMovieFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragmen
         }
     }
 
-    private fun showDetailMovie() {
-        movieId = args.detailMovie.id ?: 0
-        viewModel.getDetailMovie(movieId)
-        viewModel.detailMovie.observe(viewLifecycleOwner) { movie ->
-            initView(movie)
-            setFavorite(movie)
-        }
-    }
+    private fun showDetailMovie(movie: Movie) {
 
-    private fun showDetailMovieFromDb() {
-        movieId = args.detailMovie.id ?: 0
-        viewModel.getDetailMovieByIdFromDb(movieId)
-        viewModel.detailMovie.observe(viewLifecycleOwner) { movie ->
-            initView(movie)
-            setFavorite(movie)
-        }
-    }
+        initView(movie)
+        var isFavorite = movie.isFavorite
+        stateFavorite(isFavorite)
 
-    private fun setFavorite(movie: Movie) {
-        var statusFavorite = movie.isFavorite
         binding.fab.setOnClickListener {
-            statusFavorite = !statusFavorite
-            viewModel.setFavMovie(movie, statusFavorite)
-            stateFavorite(statusFavorite)
+            isFavorite = !isFavorite
+            viewModel.setFavMovie(movie, isFavorite)
+            stateFavorite(isFavorite)
         }
+
     }
 
     private fun initView(movie: Movie) {
@@ -94,7 +73,7 @@ class DetailMovieFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragmen
             tvPopularity.text = movie.popularity.toString()
             tvReleaseDetail.text = movie.releaseDate
             tvScore.text = movie.voteAverage.toString()
-            tvGenres.text = movie.genres[0].name
+            //tvGenres.text = movie.genres[0].name
         }
 
         Glide.with(this)

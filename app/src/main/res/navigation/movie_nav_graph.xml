@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_movieFragment_to_movieSearchFragment"
+            app:destination="@id/movieSearchFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/TVFragment"
@@ -30,6 +37,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_TVFragment_to_searchTvFragment"
+            app:destination="@id/searchTvFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -38,7 +48,7 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/favoriteFragment"
-        android:name="com.rasyidin.moviesapp.ui.fav.FavoriteFragment"
+        android:name="com.rasyidin.moviesapp.favorite.FavoriteFragment"
         android:label="FavoriteFragment">
         <action
             android:id="@+id/action_favoriteFragment_to_detailFragment"
@@ -62,5 +72,30 @@
         <argument
             android:name="detailTv"
             app:argType="com.rasyidin.moviesapp.core.domain.model.TV" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieSearchFragment"
+        android:name="com.rasyidin.moviesapp.ui.movies.MovieSearchFragment"
+        android:label="fragment_movie_search"
+        tools:layout="@layout/fragment_movie_search">
+        <action
+            android:id="@+id/action_movieSearchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <argument
+            android:name="search"
+            android:defaultValue='""'
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchTvFragment"
+        android:name="com.rasyidin.moviesapp.ui.tv.SearchTvFragment"
+        android:label="SearchTvFragment">
+        <action
+            android:id="@+id/action_searchTvFragment_to_detailTvFragment"
+            app:destination="@id/detailTvFragment" />
+        <argument
+            android:name="search"
+            android:defaultValue='""'
+            app:argType="string" />
     </fragment>
 </navigation>

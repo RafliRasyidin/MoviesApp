@@ -18,14 +18,7 @@ class MovieLocalDataSource(
 
     fun setFavoriteMovie(movieEntity: MovieEntity, newState: Boolean) {
         movieEntity.isFavorite = newState
-        movieDao.updateFavMovie(movieEntity)
+        movieDao.upsertFavMovie(movieEntity)
     }
 
-    fun getFavMovieById(movieId: Int?) = movieDao.getFavMoviesById(movieId)
-
-    /*suspend fun isFavoritedMovie(movieEntity: MovieEntity?) =
-        db.getMoviesDao().getFavMoviesById(movieEntity?.id) != null
-
-    suspend fun isFavoritedTv(tvEntity: TVEntity?) =
-        db.getTvDao().getFavTvById(tvEntity?.id) != null*/
 }

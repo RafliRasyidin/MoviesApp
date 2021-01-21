@@ -18,4 +18,6 @@
     <string name="title">Title</string>
     <string name="overview">Overview</string>
     <string name="profile">Profile</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="coming_soon">Coming Soon</string>
 </resources>

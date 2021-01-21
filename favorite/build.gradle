@@ -50,6 +50,4 @@ dependencies {
     // MKLoader (custom loading)
     implementation 'com.tuyenmonkey:mkloader:1.4.0'
 
-    
-
 }

@@ -5,7 +5,6 @@ import com.rasyidin.moviesapp.core.domain.usecase.movie.MovieUseCase
 import com.rasyidin.moviesapp.core.domain.usecase.tv.TVInteractor
 import com.rasyidin.moviesapp.core.domain.usecase.tv.TVUseCase
 import com.rasyidin.moviesapp.ui.detail.DetailViewModel
-import com.rasyidin.moviesapp.ui.fav.FavViewModel
 import com.rasyidin.moviesapp.ui.movies.MovieViewModel
 import com.rasyidin.moviesapp.ui.tv.TvViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -20,5 +19,4 @@ val viewModelModule = module {
     viewModel { MovieViewModel(get()) }
     viewModel { TvViewModel(get()) }
     viewModel { DetailViewModel(get(), get()) }
-    viewModel { FavViewModel(get(), get()) }
 }

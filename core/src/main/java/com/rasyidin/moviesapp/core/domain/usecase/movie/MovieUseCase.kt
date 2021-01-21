@@ -18,6 +18,4 @@ interface MovieUseCase {
 
     fun setFavMovie(movie: Movie, state: Boolean)
 
-    fun getDetailMovieByIdFromDb(movieId: Int?): Flow<Movie>
-
 }

@@ -70,9 +70,4 @@ class MovieRepository(
         appExecutors.diskIO().execute { localDataSource.setFavoriteMovie(movieEntity, state) }
     }
 
-    override fun getDetailMovieByIdFromDb(movieId: Int?): Flow<Movie> =
-        localDataSource.getFavMovieById(movieId).map {
-            DataMapper.mapMovieEntityToMovie(it)
-        }
-
 }

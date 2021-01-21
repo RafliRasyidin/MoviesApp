@@ -29,10 +29,10 @@ object DataMapper {
         return movies
     }
 
-    fun mapTvResponseToEntities(input: List<TVResponse>): List<com.rasyidin.moviesapp.core.data.source.local.entity.TVEntity> {
-        val tvList = ArrayList<com.rasyidin.moviesapp.core.data.source.local.entity.TVEntity>()
+    fun mapTvResponseToEntities(input: List<TVResponse>): List<TVEntity> {
+        val tvList = ArrayList<TVEntity>()
         input.map {
-            val tv = com.rasyidin.moviesapp.core.data.source.local.entity.TVEntity(
+            val tv = TVEntity(
                 id = it.id,
                 firstAirDate = it.firstAirDate,
                 name = it.name,
@@ -60,7 +60,8 @@ object DataMapper {
             releaseDate = input.releaseDate,
             title = input.title,
             voteAverage = input.voteAverage,
-            voteCount = input.voteCount
+            voteCount = input.voteCount,
+            isFavorite = false
         )
 
     fun mapMoviesResponseToMovies(input: List<MoviesResponse>): List<Movie> {
@@ -129,7 +130,7 @@ object DataMapper {
                 popularity = it.popularity,
                 voteAverage = it.voteAverage,
                 voteCount = it.voteCount,
-                isFavorite = false
+                isFavorite = it.isFavorite
             )
         }
 
@@ -144,7 +145,7 @@ object DataMapper {
             popularity = input.popularity,
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
-            isFavorite = false
+            isFavorite = input.isFavorite
         )
 
     fun mapTvEntitiesToTv(input: List<TVEntity>) =
@@ -159,7 +160,7 @@ object DataMapper {
                 voteAverage = it.voteAverage,
                 voteCount = it.voteCount,
                 popularity = it.popularity,
-                isFavorite = false
+                isFavorite = it.isFavorite
             )
         }
 
@@ -174,7 +175,7 @@ object DataMapper {
             popularity = input.popularity,
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
-            isFavorite = false
+            isFavorite = input.isFavorite
         )
 
     fun mapMovieToMovieEntity(input: Movie) =
@@ -188,11 +189,11 @@ object DataMapper {
             popularity = input.popularity,
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
-            isFavorite = false
+            isFavorite = input.isFavorite
         )
 
     fun mapTvToTvEntity(input: TV) =
-        com.rasyidin.moviesapp.core.data.source.local.entity.TVEntity(
+        TVEntity(
             id = input.id,
             firstAirDate = input.firstAirDate,
             name = input.name,
@@ -202,6 +203,6 @@ object DataMapper {
             voteAverage = input.voteAverage,
             voteCount = input.voteCount,
             popularity = input.popularity,
-            isFavorite = false
+            isFavorite = input.isFavorite
         )
 }
