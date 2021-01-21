@@ -1,8 +1,6 @@
-package com.rasyidin.moviesapp.ui.fav
+package com.rasyidin.moviesapp.favorite
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.PagedList
 import com.rasyidin.moviesapp.core.domain.model.Movie
 import com.rasyidin.moviesapp.core.domain.model.TV
 import com.rasyidin.moviesapp.core.domain.usecase.movie.MovieUseCase
@@ -11,10 +9,9 @@ import com.rasyidin.moviesapp.core.domain.usecase.tv.TVUseCase
 class FavViewModel(private val movieUseCase: MovieUseCase, private val tvUseCase: TVUseCase) :
     ViewModel() {
 
-    fun getFavMovies(): LiveData<PagedList<Movie>> =
-        movieUseCase.getFavMovies()
+    val favoriteMovie = movieUseCase.getFavMovies()
 
-    fun getFavTv(): LiveData<PagedList<TV>> = tvUseCase.getFavTv()
+    val favoriteTv = tvUseCase.getFavTv()
 
     fun setFavMovie(movie: Movie, state: Boolean) = movieUseCase.setFavMovie(movie, state)
 

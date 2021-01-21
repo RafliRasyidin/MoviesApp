@@ -1,4 +1,4 @@
-package com.rasyidin.moviesapp.ui.fav.movies
+package com.rasyidin.moviesapp.favorite.movies
 
 import android.os.Bundle
 import android.view.View
@@ -7,13 +7,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.domain.model.Movie
 import com.rasyidin.moviesapp.core.ui.adapters.FavMovieAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
-import com.rasyidin.moviesapp.databinding.FragmentFavoriteMoviesBinding
-import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
-import com.rasyidin.moviesapp.ui.fav.FavViewModel
+import com.rasyidin.moviesapp.favorite.FavViewModel
+import com.rasyidin.moviesapp.favorite.FavoriteFragmentDirections
+import com.rasyidin.moviesapp.favorite.R
+import com.rasyidin.moviesapp.favorite.databinding.FragmentFavoriteMoviesBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteMoviesFragment :
@@ -39,19 +39,14 @@ class FavoriteMoviesFragment :
     }
 
     private fun navigateToDetail(movie: Movie) {
-        val bundle = Bundle().apply {
-            putSerializable(DetailMovieFragment.MOVIE_TYPE, movie)
-            putInt(DetailMovieFragment.MOVIE_TYPE, DetailMovieFragment.FAVORITE_MOVIE_KEY)
-        }
         findNavController().navigate(
-            R.id.action_favoriteFragment_to_detailFragment,
-            bundle
+            FavoriteFragmentDirections.actionFavoriteFragmentToDetailFragment(movie)
         )
 
     }
 
     private fun observeFavMovies() {
-        viewModel.getFavMovies().observe(viewLifecycleOwner, {
+        viewModel.favoriteMovie.observe(viewLifecycleOwner, {
             favMovieAdapter.submitList(it)
         })
     }

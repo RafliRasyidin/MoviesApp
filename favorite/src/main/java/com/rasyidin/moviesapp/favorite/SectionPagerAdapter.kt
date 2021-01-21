@@ -1,4 +1,4 @@
-package com.rasyidin.moviesapp.ui.fav
+package com.rasyidin.moviesapp.favorite
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.rasyidin.moviesapp.R
-import com.rasyidin.moviesapp.ui.fav.movies.FavoriteMoviesFragment
-import com.rasyidin.moviesapp.ui.fav.tv.FavoriteTVFragment
+import com.rasyidin.moviesapp.favorite.movies.FavoriteMoviesFragment
+import com.rasyidin.moviesapp.favorite.tv.FavoriteTVFragment
 
 class SectionPagerAdapter(private val context: Context, fragmentManager: FragmentManager) :
     FragmentPagerAdapter(

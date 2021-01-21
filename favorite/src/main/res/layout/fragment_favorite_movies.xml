@@ -7,10 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        tools:context=".ui.fav.tv.FavoriteTVFragment">
+        tools:context=".favorite.movies.FavoriteMoviesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_fav_tv"
+            android:id="@+id/rv_fav_movies"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -33,5 +33,5 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
 
+</layout>
