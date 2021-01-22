@@ -68,7 +68,11 @@ class MovieSearchFragment :
 
     private fun subscribeToObserver() {
         viewModel.search.observe(viewLifecycleOwner) { movies ->
-            searchAdapter.setList(movies)
+            if (movies.isNullOrEmpty()) binding.ivNotFound.visibility = View.VISIBLE
+            else {
+                searchAdapter.setList(movies)
+                binding.ivNotFound.visibility = View.GONE
+            }
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
@@ -77,6 +81,10 @@ class MovieSearchFragment :
             } else {
                 binding.progressBar.visibility = View.GONE
             }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) {
+            binding.ivNotFound.visibility = View.VISIBLE
         }
     }
 

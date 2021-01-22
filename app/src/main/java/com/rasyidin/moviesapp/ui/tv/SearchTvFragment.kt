@@ -64,7 +64,11 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
 
     private fun subscribeToObserver() {
         viewModel.search.observe(viewLifecycleOwner) {
-            searchAdapter.setList(it)
+            if (it.isNullOrEmpty()) binding.ivNotFound.visibility = View.VISIBLE
+            else {
+                searchAdapter.setList(it)
+                binding.ivNotFound.visibility = View.GONE
+            }
         }
 
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->

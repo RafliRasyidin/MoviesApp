@@ -20,6 +20,8 @@ class MovieViewModel(private val movieUseCase: MovieUseCase) : ViewModel() {
     private val _search = MutableLiveData<List<Movie>>()
     val search: LiveData<List<Movie>> = _search
 
+    val error = MutableLiveData<String>()
+
     private fun setLoading() = _loading.postValue(true)
 
     private fun finishLoading() = _loading.postValue(false)

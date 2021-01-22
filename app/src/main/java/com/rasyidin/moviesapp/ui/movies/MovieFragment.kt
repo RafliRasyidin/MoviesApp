@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.data.vo.Resource
 import com.rasyidin.moviesapp.core.domain.model.Movie
@@ -29,6 +30,9 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "Movies"
+        val navBar =
+            (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        navBar.visibility = View.VISIBLE
 
         setupRecyclerView()
         searchMovies()

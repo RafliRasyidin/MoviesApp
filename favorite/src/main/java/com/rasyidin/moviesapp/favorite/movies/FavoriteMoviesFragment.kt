@@ -47,7 +47,12 @@ class FavoriteMoviesFragment :
 
     private fun observeFavMovies() {
         viewModel.favoriteMovie.observe(viewLifecycleOwner, {
-            favMovieAdapter.submitList(it)
+            if (it.isNullOrEmpty()) binding.ivNoData.visibility = View.VISIBLE
+            else {
+                favMovieAdapter.submitList(it)
+                binding.ivNoData.visibility = View.GONE
+            }
+
         })
     }
 

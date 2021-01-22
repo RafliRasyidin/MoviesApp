@@ -47,7 +47,12 @@ class FavoriteTVFragment : BaseFragment<FragmentFavoriteTVBinding>(R.layout.frag
 
     private fun subscribeToObservers() {
         viewModel.favoriteTv.observe(viewLifecycleOwner, {
-            favTVAdapter.submitList(it)
+            if (it.isNullOrEmpty()) binding.ivNoData.visibility = View.VISIBLE
+            else {
+                favTVAdapter.submitList(it)
+                binding.ivNoData.visibility = View.GONE
+            }
+
         })
     }
 

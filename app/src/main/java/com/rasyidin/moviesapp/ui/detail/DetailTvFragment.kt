@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.core.domain.model.TV
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
@@ -25,6 +26,9 @@ class DetailTvFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragment_d
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).supportActionBar?.title = "TV Detail"
+        val navBar =
+            (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        navBar.visibility = View.GONE
 
         val tv = args.detailTv
         showDetailTv(tv)
