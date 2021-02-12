@@ -68,8 +68,10 @@ class MovieSearchFragment :
 
     private fun subscribeToObserver() {
         viewModel.search.observe(viewLifecycleOwner) { movies ->
-            if (movies.isNullOrEmpty()) binding.ivNotFound.visibility = View.VISIBLE
-            else {
+            if (movies.isNullOrEmpty()) {
+                binding.ivNotFound.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+            } else {
                 searchAdapter.setList(movies)
                 binding.ivNotFound.visibility = View.GONE
             }
@@ -90,7 +92,7 @@ class MovieSearchFragment :
 
     private fun navigateToDetailMovie(movie: Movie) {
         val bundle = Bundle().apply {
-            putSerializable(DetailMovieFragment.MOVIE_TYPE, movie)
+            putParcelable(DetailMovieFragment.MOVIE_TYPE, movie)
         }
         findNavController().navigate(
             R.id.action_movieSearchFragment_to_detailFragment,

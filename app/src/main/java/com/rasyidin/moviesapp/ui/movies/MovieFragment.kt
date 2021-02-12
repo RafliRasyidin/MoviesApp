@@ -15,7 +15,6 @@ import com.rasyidin.moviesapp.core.ui.adapters.MovieAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentMoviesBinding
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
-import kotlinx.android.synthetic.main.fragment_movies.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -88,7 +87,7 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
 
     private fun navigateToDetailMovie(movie: Movie) {
         val bundle = Bundle().apply {
-            putSerializable(DetailMovieFragment.MOVIE_TYPE, movie)
+            putParcelable(DetailMovieFragment.MOVIE_TYPE, movie)
         }
         findNavController().navigate(
             R.id.action_movieFragment_to_detailFragment,
@@ -98,11 +97,11 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
     }
 
     private fun hideProgressBar() {
-        progress_bar.visibility = View.INVISIBLE
+        binding.progressBar.visibility = View.INVISIBLE
     }
 
     private fun showProgressBar() {
-        progress_bar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
 }

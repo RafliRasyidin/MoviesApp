@@ -1,9 +1,11 @@
 package com.rasyidin.moviesapp.core.data.source.local.entity
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "favMovies")
 data class MovieEntity(
     @PrimaryKey
@@ -18,4 +20,4 @@ data class MovieEntity(
     var voteCount: Int? = null,
     var isFavorite: Boolean = false
 
-) : Serializable
+) : Parcelable

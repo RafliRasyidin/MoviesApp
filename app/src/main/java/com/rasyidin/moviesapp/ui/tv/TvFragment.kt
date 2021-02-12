@@ -15,7 +15,6 @@ import com.rasyidin.moviesapp.core.ui.adapters.TvAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.databinding.FragmentTvBinding
 import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
-import kotlinx.android.synthetic.main.fragment_tv.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -54,7 +53,7 @@ class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
 
     private fun navigateToDetail(tv: TV) {
         val bundle = Bundle().apply {
-            putSerializable(DetailTvFragment.DETAIL_TV, tv)
+            putParcelable(DetailTvFragment.DETAIL_TV, tv)
         }
         findNavController().navigate(
             R.id.action_TVFragment_to_detailTvFragment,
@@ -98,11 +97,11 @@ class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
     }
 
     private fun showProgressBar() {
-        progress_bar.visibility = View.VISIBLE
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {
-        progress_bar.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 
 }

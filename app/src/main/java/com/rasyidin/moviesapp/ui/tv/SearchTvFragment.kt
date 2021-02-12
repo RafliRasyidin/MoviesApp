@@ -64,8 +64,10 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
 
     private fun subscribeToObserver() {
         viewModel.search.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) binding.ivNotFound.visibility = View.VISIBLE
-            else {
+            if (it.isNullOrEmpty()) {
+                binding.ivNotFound.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.GONE
+            } else {
                 searchAdapter.setList(it)
                 binding.ivNotFound.visibility = View.GONE
             }
@@ -82,7 +84,7 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
 
     private fun navigateToDetail(tv: TV) {
         val bundle = Bundle().apply {
-            putSerializable(DetailTvFragment.DETAIL_TV, tv)
+            putParcelable(DetailTvFragment.DETAIL_TV, tv)
         }
         findNavController().navigate(
             R.id.action_searchTvFragment_to_detailTvFragment,

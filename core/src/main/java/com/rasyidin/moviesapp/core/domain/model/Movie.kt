@@ -1,7 +1,10 @@
 package com.rasyidin.moviesapp.core.domain.model
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
+@Parcelize
 data class Movie(
     val id: Int?,
     val posterPath: String?,
@@ -9,9 +12,9 @@ data class Movie(
     val overview: String?,
     val releaseDate: String?,
     val title: String?,
-    val genres: List<Genre> = emptyList(),
+    val genres: @RawValue List<Genre> = emptyList(),
     val popularity: Double?,
     val voteAverage: Double?,
     val voteCount: Int?,
     val isFavorite: Boolean
-) : Serializable
+) : Parcelable

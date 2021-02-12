@@ -86,16 +86,7 @@ class MainActivityTest {
                 click()
             )
         )
-        onView(withId(R.id.action_set_fav)).perform(click())
         onView(isRoot()).perform(pressBack())
-        onView(withId(R.id.action_fav)).perform(click())
-        onView(withId(R.id.rv_fav_movies)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_fav_movies)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
-                click()
-            )
-        )
         onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
     }
 
@@ -108,17 +99,7 @@ class MainActivityTest {
                 click()
             )
         )
-        onView(withId(R.id.action_set_fav)).perform(click())
         onView(isRoot()).perform(pressBack())
-        onView(withId(R.id.action_fav)).perform(click())
-        onView(withText("TV")).perform(click())
-        onView(withId(R.id.rv_fav_tv)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_fav_tv)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
-                click()
-            )
-        )
         onView(withId(R.id.tv_title_detail)).check(matches(isDisplayed()))
 
     }
