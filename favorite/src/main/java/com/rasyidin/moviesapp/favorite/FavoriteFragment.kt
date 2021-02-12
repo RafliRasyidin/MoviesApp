@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.favorite.databinding.FragmentFavoriteBinding
+import com.rasyidin.moviesapp.favorite.di.favoriteModule
 import org.koin.core.context.loadKoinModules
 
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {

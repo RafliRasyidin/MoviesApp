@@ -5,6 +5,7 @@
     <string name="tv">TV</string>
     <string name="popularity">Popularity</string>
     <string name="favorite">Favorite</string>
+    <string name="title_favorite">Favorite</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="what_do_you_like_to_watch">WHAT DO YOU LIKE TO WATCH?</string>
     <string name="search">Search</string>
