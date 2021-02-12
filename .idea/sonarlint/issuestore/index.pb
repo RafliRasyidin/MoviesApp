@@ -53,8 +53,6 @@ k
 ;app/src/main/res/drawable/ic_baseline_account_circle_24.xml,d\2\d2af95d31a84790e1db0a544c4e43bfaf6075290
 c
 3app/src/main/res/drawable/ic_baseline_search_24.xml,f\7\f739e1a582ae6189355f067801a6685283bfb145
-X
-(app/src/main/res/drawable/ic_film_24.xml,2\2\2252b241aaa4cd4b6c36389164828752f490f929
 S
 #app/src/main/res/drawable/ic_tv.xml,9\2\928baea3238cf443ef21cebf830f49fb327e7a82
 Q
@@ -65,10 +63,6 @@ V
 0app/src/main/res/menu/bottom_navigation_menu.xml,d\6\d6b83c453579d1c62b11597f7bfbba2e903ecd37
 V
 &app/src/main/res/values/font_certs.xml,8\7\8721b09acc6dcb831485a758e527a36efbbce1ff
-[
-+app/src/main/res/values/preloaded_fonts.xml,1\a\1ac4bbe3e597dbb591474f97b69d35c8d7401efe
-S
-#app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
 ?
 settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
 J
@@ -201,9 +195,9 @@ Bapp/src/main/java/com/rasyidin/moviesapp/ui/tv/SearchTvFragment.kt,2\7\2767acf
 +app/src/main/res/layout/fragment_movies.xml,3\6\3649d18ceeefd1a834d03bdb6b3d6c0a579b3e64
 \
 ,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
-W
-'app/src/main/res/layout/fragment_tv.xml,2\a\2aa4e3585e82bcf407ee7d2cf8e38a81d2aacbff
 _
 /app/src/main/res/navigation/movie_nav_graph.xml,c\5\c53fad13f56c761fdf145caaa9e3a614014a451c
-h
-8app/src/main/res/drawable/bottom_navigation_selector.xml,7\8\7831d9a854c21b086fda02ed4844416666933a50
+X
+(gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+@
+local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
