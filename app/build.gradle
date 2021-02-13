@@ -61,4 +61,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationComponent"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationComponent"
 
+    // Shimmer effect
+    implementation "com.facebook.shimmer:shimmer:$shimmer_version"
+
 }

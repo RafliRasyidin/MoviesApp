@@ -235,7 +235,6 @@
             app:mk_color="@color/colorAccent"
             app:mk_type="TwinFishesSpinner" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

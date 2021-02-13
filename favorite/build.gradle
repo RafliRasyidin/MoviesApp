@@ -50,4 +50,7 @@ dependencies {
     // MKLoader (custom loading)
     implementation 'com.tuyenmonkey:mkloader:1.4.0'
 
+    // Lottie
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
 }
