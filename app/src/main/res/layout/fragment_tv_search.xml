@@ -6,6 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         tools:context=".ui.tv.SearchTvFragment">
 
         <androidx.appcompat.widget.SearchView
@@ -39,12 +40,14 @@
             app:layout_constraintTop_toBottomOf="@+id/et_search_tv"
             tools:listitem="@layout/item_film" />
 
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/iv_not_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_no_data"
             android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="no_data_red.json"
+            app:lottie_loop="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -58,10 +61,14 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_search_tv"
-            app:shimmer_auto_start="true">
+            app:shimmer_auto_start="true"
+            app:shimmer_direction="left_to_right"
+            app:shimmer_repeat_mode="restart"
+            app:shimmer_shape="linear">
 
             <include layout="@layout/loading_effect" />
         </com.facebook.shimmer.ShimmerFrameLayout>

@@ -10,7 +10,7 @@ interface ITVRepository {
 
     fun getPopularTv(): Flow<Resource<List<TV>>>
 
-    suspend fun searchTv(querySearch: String?): Flow<List<TV>>
+    suspend fun searchTv(querySearch: String?): Resource<List<TV>>
 
     fun getFavTv(): LiveData<PagedList<TV>>
 

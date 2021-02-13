@@ -181,13 +181,11 @@ y
 Iapp/src/main/java/com/rasyidin/moviesapp/ui/movies/MovieSearchFragment.kt,9\5\95accd124edada63a6b95d2c002b5ea63c23cd81
 r
 Bapp/src/main/java/com/rasyidin/moviesapp/ui/tv/SearchTvFragment.kt,2\7\2767acf892e49444d6e2d71fb49a8cfd6b03bf78
-\
-,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
 X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 @
 local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
-Y
-)app/src/main/res/layout/activity_main.xml,7\6\76b07e40f24cce093536731477540f12e7da3cb6
 S
 #app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
+b
+2core/src/main/res/layout/item_list_placeholder.xml,c\d\cdb7647533353c50afef41c586d69fbb39f9c406

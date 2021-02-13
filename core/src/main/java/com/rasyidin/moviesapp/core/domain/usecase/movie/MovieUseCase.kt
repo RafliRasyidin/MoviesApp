@@ -10,7 +10,7 @@ interface MovieUseCase {
 
     fun getPopularMovies(): Flow<Resource<List<Movie>>>
 
-    suspend fun searchMovies(querySearch: String?): Flow<List<Movie>>
+    suspend fun searchMovies(querySearch: String?): Resource<List<Movie>>
 
     fun getFavMovies(): LiveData<PagedList<Movie>>
 

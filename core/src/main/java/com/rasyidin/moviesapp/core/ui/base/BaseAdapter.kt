@@ -13,7 +13,7 @@ abstract class BaseAdapter<T>(
 
     abstract val data: ArrayList<T>
 
-    fun setList(listItems: List<T>) {
+    fun setList(listItems: List<T>?) {
         if (listItems.isNullOrEmpty()) return
         data.clear()
         data.addAll(listItems)

@@ -35,18 +35,22 @@ class MoviesDataSource(private val apiService: ApiService) {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun searchMovies(querySearch: String?): Flow<List<MoviesResponse>> {
+    suspend fun searchMovies(querySearch: String?): Flow<ApiResponse<List<MoviesResponse>>> {
         EspressoIdlingResource.increment()
         return flow {
             try {
                 val response = apiService.searchMovies(querySearch)
                 val data = response.results
                 if (data.isNotEmpty()) {
-                    emit(response.results)
+                    emit(ApiResponse.Success(response.results))
+                    EspressoIdlingResource.decrement()
+                } else {
+                    emit(ApiResponse.Empty)
                     EspressoIdlingResource.decrement()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.toString())
+                emit(ApiResponse.Error(e.message.toString()))
                 EspressoIdlingResource.decrement()
             }
         }.flowOn(Dispatchers.IO)

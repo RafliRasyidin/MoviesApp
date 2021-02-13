@@ -12,7 +12,7 @@ class TVInteractor(private val tvRepository: ITVRepository) : TVUseCase {
     override fun getPopularTv(): Flow<Resource<List<TV>>> =
         tvRepository.getPopularTv()
 
-    override suspend fun searchTv(querySearch: String?): Flow<List<TV>> =
+    override suspend fun searchTv(querySearch: String?): Resource<List<TV>> =
         tvRepository.searchTv(querySearch)
 
     override fun getFavTv(): LiveData<PagedList<TV>> =

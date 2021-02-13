@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
+import com.rasyidin.moviesapp.core.data.vo.Resource
 import com.rasyidin.moviesapp.core.domain.model.Movie
 import com.rasyidin.moviesapp.core.ui.adapters.MovieAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
@@ -15,6 +17,7 @@ import com.rasyidin.moviesapp.databinding.FragmentMovieSearchBinding
 import com.rasyidin.moviesapp.ui.detail.DetailMovieFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @FlowPreview
@@ -54,40 +57,46 @@ class MovieSearchFragment :
     private fun searchMovies() {
         binding.etSearchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.searchMovies(query)
+                loadingState()
+                viewModel.shouldDebounce(false)
+                lifecycleScope.launch {
+                    viewModel.queryChannel.send(query)
+                }
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                return false
+                loadingState()
+                viewModel.shouldDebounce(true)
+                lifecycleScope.launch {
+                    viewModel.queryChannel.send(newText)
+                }
+                return true
             }
         })
-
 
     }
 
     private fun subscribeToObserver() {
-        viewModel.search.observe(viewLifecycleOwner) { movies ->
-            if (movies.isNullOrEmpty()) {
-                binding.ivNotFound.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-            } else {
-                searchAdapter.setList(movies)
-                binding.ivNotFound.visibility = View.GONE
+        viewModel.searchMovies.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    loadingState()
+                }
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    searchAdapter.setList(it.data)
+                    binding.rvSearch.visibility = View.VISIBLE
+                    binding.ivNotFound.visibility = View.GONE
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.rvSearch.visibility = View.GONE
+                    binding.ivNotFound.visibility = View.VISIBLE
+                }
             }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) {
-            binding.ivNotFound.visibility = View.VISIBLE
-        }
     }
 
     private fun navigateToDetailMovie(movie: Movie) {
@@ -101,5 +110,9 @@ class MovieSearchFragment :
 
     }
 
-
+    private fun loadingState() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.ivNotFound.visibility = View.GONE
+        binding.rvSearch.visibility = View.GONE
+    }
 }

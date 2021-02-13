@@ -34,21 +34,22 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
         navBar.visibility = View.VISIBLE
 
         setupRecyclerView()
+
         searchMovies()
+
         subscribeToObservers()
 
         movieAdapter.setItemClickListener {
             navigateToDetailMovie(it)
         }
+
     }
 
     private fun searchMovies() {
         binding.etSearchMovie.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 findNavController().navigate(
-                    MovieFragmentDirections.actionMovieFragmentToMovieSearchFragment(
-                        query
-                    )
+                    MovieFragmentDirections.actionMovieFragmentToMovieSearchFragment(query)
                 )
                 return true
             }

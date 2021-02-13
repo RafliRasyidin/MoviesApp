@@ -13,6 +13,7 @@ import com.rasyidin.moviesapp.core.domain.repository.IMovieRepository
 import com.rasyidin.moviesapp.core.utils.AppExecutors
 import com.rasyidin.moviesapp.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class MovieRepository(
@@ -43,10 +44,20 @@ class MovieRepository(
             }
         }.asFlow()
 
-    override suspend fun searchMovies(querySearch: String?): Flow<List<Movie>> =
-        remoteDataSource.searchMovies(querySearch).map {
-            DataMapper.mapMoviesResponseToMovies(it)
+    override suspend fun searchMovies(querySearch: String?): Resource<List<Movie>> {
+        return when (val apiResponse = remoteDataSource.searchMovies(querySearch).first()) {
+            is ApiResponse.Success -> {
+                val result = DataMapper.mapMoviesResponseToMovies(apiResponse.data)
+                Resource.Success(result)
+            }
+            is ApiResponse.Empty -> {
+                Resource.Error(null, apiResponse.toString())
+            }
+            is ApiResponse.Error -> {
+                Resource.Error(null, apiResponse.errorMessage)
+            }
         }
+    }
 
     override fun getFavMovies(): LiveData<PagedList<Movie>> {
         val data = localDataSource.getFavMovies().map {

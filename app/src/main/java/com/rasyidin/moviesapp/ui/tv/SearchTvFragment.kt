@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rasyidin.moviesapp.R
+import com.rasyidin.moviesapp.core.data.vo.Resource
 import com.rasyidin.moviesapp.core.domain.model.TV
 import com.rasyidin.moviesapp.core.ui.adapters.TvAdapter
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
@@ -15,6 +17,7 @@ import com.rasyidin.moviesapp.databinding.FragmentTvSearchBinding
 import com.rasyidin.moviesapp.ui.detail.DetailTvFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 @FlowPreview
@@ -45,12 +48,21 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
     private fun searchTv() {
         binding.etSearchTv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                viewModel.searchTv(query)
+                loadingState()
+                viewModel.shouldDebounce(false)
+                lifecycleScope.launch {
+                    viewModel.queryChannel.send(query)
+                }
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
+            override fun onQueryTextChange(newText: String): Boolean {
+                loadingState()
+                viewModel.shouldDebounce(true)
+                lifecycleScope.launch {
+                    viewModel.queryChannel.send(newText)
+                }
+                return true
             }
         })
     }
@@ -63,23 +75,25 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
     }
 
     private fun subscribeToObserver() {
-        viewModel.search.observe(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
-                binding.ivNotFound.visibility = View.VISIBLE
-                binding.progressBar.visibility = View.GONE
-            } else {
-                searchAdapter.setList(it)
-                binding.ivNotFound.visibility = View.GONE
+        viewModel.searchTv.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    searchAdapter.setList(it.data)
+                    binding.rvSearch.visibility = View.VISIBLE
+                    binding.ivNotFound.visibility = View.GONE
+                    binding.progressBar.visibility = View.GONE
+                }
+                is Resource.Loading -> {
+                    loadingState()
+                }
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.rvSearch.visibility = View.GONE
+                    binding.ivNotFound.visibility = View.VISIBLE
+                }
             }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
-        }
     }
 
     private fun navigateToDetail(tv: TV) {
@@ -90,5 +104,11 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
             R.id.action_searchTvFragment_to_detailTvFragment,
             bundle
         )
+    }
+
+    private fun loadingState() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.ivNotFound.visibility = View.GONE
+        binding.progressBar.visibility = View.GONE
     }
 }

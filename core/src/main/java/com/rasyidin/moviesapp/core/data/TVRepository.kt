@@ -13,6 +13,7 @@ import com.rasyidin.moviesapp.core.domain.repository.ITVRepository
 import com.rasyidin.moviesapp.core.utils.AppExecutors
 import com.rasyidin.moviesapp.core.utils.DataMapper
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class TVRepository(
@@ -43,10 +44,20 @@ class TVRepository(
             }
         }.asFlow()
 
-    override suspend fun searchTv(querySearch: String?): Flow<List<TV>> =
-        remoteDataSource.searchTv(querySearch).map {
-            DataMapper.mapTVResponseToListTV(it)
+    override suspend fun searchTv(querySearch: String?): Resource<List<TV>> {
+        return when (val apiResponse = remoteDataSource.searchTv(querySearch).first()) {
+            is ApiResponse.Success -> {
+                val result = DataMapper.mapTVResponseToListTV(apiResponse.data)
+                Resource.Success(result)
+            }
+            is ApiResponse.Empty -> {
+                Resource.Error(null, apiResponse.toString())
+            }
+            is ApiResponse.Error -> {
+                Resource.Error(null, apiResponse.errorMessage)
+            }
         }
+    }
 
     override fun getFavTv(): LiveData<PagedList<TV>> {
         val data = localDataSource.getFavTv().map {
