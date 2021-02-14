@@ -19,14 +19,6 @@ Eapp/src/main/java/com/rasyidin/moviesapp/ui/detail/DetailViewModel.kt,7\4\7446
 Kapp/src/androidTest/java/com/rasyidin/moviesapp/ui/home/MainActivityTest.kt,6\6\660987824c54abc72df8534e5219fc3530fd0fbf
 A
 gradle.properties,2\a\2afbb999f001938c88fa43fc2ef52abf0f8213e4
-W
-'app/src/main/resources/detailMovie.json,1\b\1bcbd90d7d4a2f91c9e56cf1b16ef440cb5d42bb
-T
-$app/src/main/resources/detailTv.json,8\5\85776ef76551dbd2f5935022d53aaf6f5aa4ffcf
-R
-"app/src/main/resources/movies.json,4\c\4c18551a14e9ff4271b71fe3007d271d8db7306f
-N
-app/src/main/resources/tv.json,2\8\28ced3bd410122612b3ac38ff02f96d825dd8f8c
 e
 5app/src/main/res/drawable/ic_baseline_favorite_24.xml,b\e\bef90a4f44142f3ec2bbe2c8405bfea13049e237
 l
@@ -189,3 +181,11 @@ S
 #app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
 b
 2core/src/main/res/layout/item_list_placeholder.xml,c\d\cdb7647533353c50afef41c586d69fbb39f9c406
+[
++app/src/main/res/layout/fragment_movies.xml,3\6\3649d18ceeefd1a834d03bdb6b3d6c0a579b3e64
+\
+,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
+W
+'app/src/main/res/layout/fragment_tv.xml,2\a\2aa4e3585e82bcf407ee7d2cf8e38a81d2aacbff
+c
+3core/src/main/res/drawable/ic_baseline_stars_16.xml,f\1\f100cc18f24d0e68aae9cc86146feb5d74128e8b
