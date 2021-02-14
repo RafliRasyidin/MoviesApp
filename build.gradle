@@ -55,6 +55,8 @@ ext {
 
     lottie_version = "3.4.1"
 
+    leak_canary_version = "2.4"
+
 }
 
 task clean(type: Delete) {
