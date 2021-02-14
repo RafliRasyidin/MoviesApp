@@ -57,6 +57,10 @@ ext {
 
     leak_canary_version = "2.4"
 
+    sql_chipher_version = "4.4.0"
+
+    sqlite_ktx_version = "2.1.0"
+
 }
 
 task clean(type: Delete) {

@@ -13,6 +13,8 @@ import com.rasyidin.moviesapp.core.domain.repository.IMovieRepository
 import com.rasyidin.moviesapp.core.domain.repository.ITVRepository
 import com.rasyidin.moviesapp.core.utils.AppExecutors
 import com.rasyidin.moviesapp.core.utils.ConstantValue.BASE_URL
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -25,11 +27,15 @@ val databaseModule = module {
     factory { get<MoviesDatabase>().getMoviesDao() }
     factory { get<MoviesDatabase>().getTvDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("rasyidin".toCharArray())
+        val factory = SupportFactory(passphrase)
         Room.databaseBuilder(
             androidContext(),
             MoviesDatabase::class.java,
             "Movies.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 

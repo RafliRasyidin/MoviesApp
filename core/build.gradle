@@ -65,4 +65,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
+
+    // SQLChipher
+    implementation "net.zetetic:android-database-sqlcipher:$sql_chipher_version"
+    implementation "androidx.sqlite:sqlite-ktx:$sqlite_ktx_version"
 }
