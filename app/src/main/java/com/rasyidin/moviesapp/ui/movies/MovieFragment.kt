@@ -105,4 +105,10 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
         binding.progressBar.visibility = View.VISIBLE
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvMovies.adapter = null
+        _binding = null
+    }
+
 }

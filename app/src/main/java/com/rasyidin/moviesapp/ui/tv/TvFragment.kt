@@ -44,6 +44,12 @@ class TVFragment : BaseFragment<FragmentTvBinding>(R.layout.fragment_tv) {
         searchTv()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvTv.adapter = null
+        _binding = null
+    }
+
     private fun setupRecyclerView() = binding.rvTv.apply {
         popularAdapter = TvAdapter()
         layoutManager = GridLayoutManager(context, 3)

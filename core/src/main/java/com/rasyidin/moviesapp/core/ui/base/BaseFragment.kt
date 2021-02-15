@@ -13,14 +13,15 @@ abstract class BaseFragment<B : ViewDataBinding> constructor(
     @LayoutRes val layout: Int
 ) : Fragment() {
 
-    protected lateinit var binding: B
+    protected var _binding: B? = null
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, layout, container, false)
+        _binding = DataBindingUtil.inflate(inflater, layout, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }

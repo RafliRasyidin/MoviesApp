@@ -33,6 +33,12 @@ class FavoriteTVFragment : BaseFragment<FragmentFavoriteTVBinding>(R.layout.frag
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvFavTv.adapter = null
+        _binding = null
+    }
+
     private fun navigateToDetail(tv: TV) {
         findNavController().navigate(
             FavoriteFragmentDirections.actionFavoriteFragmentToDetailTvFragment(tv)

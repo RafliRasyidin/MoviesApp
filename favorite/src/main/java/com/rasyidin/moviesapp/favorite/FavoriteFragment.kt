@@ -23,4 +23,9 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
         binding.viewPagerFav.adapter = sectionPagerAdapter
         binding.tabsFav.setupWithViewPager(binding.viewPagerFav)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

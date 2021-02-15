@@ -45,6 +45,12 @@ class SearchTvFragment : BaseFragment<FragmentTvSearchBinding>(R.layout.fragment
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvSearch.adapter = null
+        _binding = null
+    }
+
     private fun searchTv() {
         binding.etSearchTv.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {

@@ -32,6 +32,12 @@ class FavoriteMoviesFragment :
         observeFavMovies()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvFavMovies.adapter = null
+        _binding = null
+    }
+
     private fun setupRecyclerView() = binding.rvFavMovies.apply {
         layoutManager = GridLayoutManager(context, 3)
         adapter = favMovieAdapter

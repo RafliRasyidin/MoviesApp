@@ -77,6 +77,12 @@ class MovieSearchFragment :
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvSearch.adapter = null
+        _binding = null
+    }
+
     private fun subscribeToObserver() {
         viewModel.searchMovies.observe(viewLifecycleOwner) {
             when (it) {
