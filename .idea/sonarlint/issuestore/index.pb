@@ -177,11 +177,11 @@ X
 (gradle/wrapper/gradle-wrapper.properties,f\b\fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
 @
 local.properties,0\7\0712df971a99ac4d2fccb8e0fb19f377f3374cca
-S
-#app/src/main/res/values/strings.xml,d\2\d2281fbb3027de2722081a53408dd77628bf080e
 b
 2core/src/main/res/layout/item_list_placeholder.xml,c\d\cdb7647533353c50afef41c586d69fbb39f9c406
 \
 ,app/src/main/res/layout/fragment_profile.xml,b\4\b4466735edf81a3353097aecb75b46205cdee6b6
 c
 3core/src/main/res/drawable/ic_baseline_stars_16.xml,f\1\f100cc18f24d0e68aae9cc86146feb5d74128e8b
+F
+app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9

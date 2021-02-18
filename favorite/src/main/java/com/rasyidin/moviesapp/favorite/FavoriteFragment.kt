@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.tabs.TabLayoutMediator
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
 import com.rasyidin.moviesapp.favorite.databinding.FragmentFavoriteBinding
 import com.rasyidin.moviesapp.favorite.di.favoriteModule
@@ -19,9 +20,24 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
         navBar.visibility = View.VISIBLE
 
         loadKoinModules(favoriteModule)
-        val sectionPagerAdapter = SectionPagerAdapter(requireContext(), childFragmentManager)
-        binding.viewPagerFav.adapter = sectionPagerAdapter
-        binding.tabsFav.setupWithViewPager(binding.viewPagerFav)
+
+        val sectionPagerAdapter =
+            SectionPagerAdapter(childFragmentManager, lifecycle)
+
+        binding.apply {
+            viewPagerFav.apply {
+                adapter = sectionPagerAdapter
+                offscreenPageLimit = 2
+            }
+
+        }
+
+        TabLayoutMediator(binding.tabsFav, binding.viewPagerFav) { tab, pos ->
+            tab.text = when (pos) {
+                0 -> getString(com.rasyidin.moviesapp.R.string.movies)
+                else -> getString(com.rasyidin.moviesapp.R.string.tv)
+            }
+        }.attach()
     }
 
     override fun onDestroyView() {

@@ -20,7 +20,7 @@ class TvDataSource(private val apiService: ApiService) {
             try {
                 val response = apiService.getPopularTV()
                 val data = response.results
-                if (data.isNotEmpty()) {
+                if (data?.isNotEmpty() ?: return@flow) {
                     emit(ApiResponse.Success(response.results))
                     EspressoIdlingResource.decrement()
                 } else {
@@ -41,7 +41,7 @@ class TvDataSource(private val apiService: ApiService) {
             try {
                 val response = apiService.searchTv(querySearch)
                 val data = response.results
-                if (data.isNotEmpty()) {
+                if (data?.isNotEmpty() ?: return@flow) {
                     emit(ApiResponse.Success(response.results))
                     EspressoIdlingResource.decrement()
                 } else {

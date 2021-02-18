@@ -2,6 +2,7 @@ package com.rasyidin.moviesapp.ui.movies
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
@@ -91,7 +92,9 @@ class MovieSearchFragment :
                 }
                 is Resource.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    searchAdapter.setList(it.data)
+                    it.data?.let { movies ->
+                        searchAdapter.setList(movies)
+                    }
                     binding.rvSearch.visibility = View.VISIBLE
                     binding.ivNotFound.visibility = View.GONE
                 }
@@ -99,6 +102,7 @@ class MovieSearchFragment :
                     binding.progressBar.visibility = View.GONE
                     binding.rvSearch.visibility = View.GONE
                     binding.ivNotFound.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

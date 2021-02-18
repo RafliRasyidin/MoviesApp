@@ -20,7 +20,7 @@ class MoviesDataSource(private val apiService: ApiService) {
             try {
                 val response = apiService.getPopularMovies()
                 val dataArray = response.results
-                if (dataArray.isNotEmpty()) {
+                if (dataArray?.isNotEmpty() ?: return@flow) {
                     emit(ApiResponse.Success(response.results))
                     EspressoIdlingResource.decrement()
                 } else {
@@ -41,7 +41,7 @@ class MoviesDataSource(private val apiService: ApiService) {
             try {
                 val response = apiService.searchMovies(querySearch)
                 val data = response.results
-                if (data.isNotEmpty()) {
+                if (data?.isNotEmpty() ?: return@flow) {
                     emit(ApiResponse.Success(response.results))
                     EspressoIdlingResource.decrement()
                 } else {

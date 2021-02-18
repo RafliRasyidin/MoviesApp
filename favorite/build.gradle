@@ -21,13 +21,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles 'proguard-rules.pro'
-        }
-    }
-
     buildFeatures {
         viewBinding = true
         dataBinding = true

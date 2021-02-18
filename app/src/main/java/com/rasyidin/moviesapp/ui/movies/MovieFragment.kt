@@ -79,7 +79,11 @@ class MovieFragment : BaseFragment<FragmentMoviesBinding>(R.layout.fragment_movi
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    Toast.makeText(context, "Something mistakes", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Something mistakes \n ${it.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })
