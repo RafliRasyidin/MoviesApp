@@ -77,7 +77,6 @@ class DetailMovieFragment : BaseFragment<FragmentDetailBinding>(R.layout.fragmen
             tvPopularity.text = movie.popularity.toString()
             tvReleaseDetail.text = movie.releaseDate
             tvScore.text = movie.voteAverage.toString()
-            //tvGenres.text = movie.genres[0].name
         }
 
         Glide.with(this)

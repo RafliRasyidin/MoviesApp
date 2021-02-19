@@ -94,3 +94,4 @@ public *;
 -keep class androidx.databinding.** { *; }
 -keep class * extends androidx.databinding.DataBinderMapper { *; }
 
+

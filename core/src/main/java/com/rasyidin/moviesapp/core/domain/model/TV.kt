@@ -2,7 +2,6 @@ package com.rasyidin.moviesapp.core.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 
 @Parcelize
 data class TV(
@@ -12,7 +11,6 @@ data class TV(
     val posterPath: String?,
     val backdropPath: String?,
     val overview: String?,
-    val genres: @RawValue List<Genre> = emptyList(),
     val voteAverage: Double?,
     val voteCount: Int?,
     val popularity: Double?,

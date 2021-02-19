@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rasyidin.moviesapp.core.ui.base.BaseFragment
+import com.rasyidin.moviesapp.favorite.SectionPagerAdapter.Companion.TAB_TITLES
 import com.rasyidin.moviesapp.favorite.databinding.FragmentFavoriteBinding
 import com.rasyidin.moviesapp.favorite.di.favoriteModule
 import org.koin.core.context.loadKoinModules
@@ -34,8 +35,8 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
 
         TabLayoutMediator(binding.tabsFav, binding.viewPagerFav) { tab, pos ->
             tab.text = when (pos) {
-                0 -> getString(com.rasyidin.moviesapp.R.string.movies)
-                else -> getString(com.rasyidin.moviesapp.R.string.tv)
+                0 -> getString(TAB_TITLES[0])
+                else -> getString(TAB_TITLES[1])
             }
         }.attach()
     }

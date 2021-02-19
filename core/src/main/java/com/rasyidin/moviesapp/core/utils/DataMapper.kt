@@ -49,21 +49,6 @@ object DataMapper {
         return tvList
     }
 
-    fun mapMovieResponseToMovie(input: MoviesResponse): Movie =
-        Movie(
-            backdropPath = input.backdropPath,
-            genres = input.genres,
-            id = input.id,
-            overview = input.overview,
-            popularity = input.popularity,
-            posterPath = input.posterPath,
-            releaseDate = input.releaseDate,
-            title = input.title,
-            voteAverage = input.voteAverage,
-            voteCount = input.voteCount,
-            isFavorite = false
-        )
-
     fun mapMoviesResponseToMovies(input: List<MoviesResponse>): List<Movie> {
         val movies = ArrayList<Movie>()
         input.map {
@@ -83,20 +68,6 @@ object DataMapper {
         }
         return movies
     }
-
-    fun mapTvResponseToTv(input: TVResponse): TV =
-        TV(
-            backdropPath = input.backdropPath,
-            firstAirDate = input.firstAirDate,
-            genres = input.genres,
-            id = input.id,
-            name = input.name,
-            overview = input.overview,
-            popularity = input.popularity,
-            posterPath = input.posterPath,
-            voteAverage = input.voteAverage,
-            voteCount = input.voteCount
-        )
 
     fun mapTVResponseToListTV(input: List<TVResponse>): List<TV> {
         val listTV = ArrayList<TV>()

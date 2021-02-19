@@ -92,8 +92,6 @@ Ccore/src/main/java/com/rasyidin/moviesapp/core/data/TVRepository.kt,c\d\cd0938
 o
 ?core/src/main/java/com/rasyidin/moviesapp/core/di/CoreModule.kt,7\2\72480187dd2b715848e1c0aa31584f6596257003
 t
-Dcore/src/main/java/com/rasyidin/moviesapp/core/domain/model/Genre.kt,3\c\3ccc102c170a6c5de829744f93d9e5567c075bed
-t
 Dcore/src/main/java/com/rasyidin/moviesapp/core/domain/model/Movie.kt,9\5\95ed1660aef2cb186103e1803832f43f81bf21fc
 q
 Acore/src/main/java/com/rasyidin/moviesapp/core/domain/model/TV.kt,c\f\cfae4d8bcf05da7aad3cd019ac83eda8c9514889
@@ -185,3 +183,5 @@ c
 3core/src/main/res/drawable/ic_baseline_stars_16.xml,f\1\f100cc18f24d0e68aae9cc86146feb5d74128e8b
 F
 app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
+b
+2favorite/src/main/res/layout/fragment_favorite.xml,4\9\498f81e0433e4f036c76ec308ab7d9e943fc4b19
