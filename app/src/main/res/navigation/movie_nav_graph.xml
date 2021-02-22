@@ -49,7 +49,8 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.rasyidin.moviesapp.favorite.FavoriteFragment"
-        android:label="FavoriteFragment">
+        android:label="FavoriteFragment"
+        app:moduleName="MoviesApp.favorite">
         <action
             android:id="@+id/action_favoriteFragment_to_detailFragment"
             app:destination="@id/detailFragment" />

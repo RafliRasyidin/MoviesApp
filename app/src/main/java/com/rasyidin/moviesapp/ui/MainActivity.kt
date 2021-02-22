@@ -3,7 +3,7 @@ package com.rasyidin.moviesapp.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.rasyidin.moviesapp.R
 import com.rasyidin.moviesapp.databinding.ActivityMainBinding
@@ -19,8 +19,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navHostFragment = findNavController(R.id.moviesNavHostFragment)
+        navHostFragment = Navigation.findNavController(this, R.id.moviesNavHostFragment)
         binding.bottomNavigationView.setupWithNavController(navHostFragment)
     }
-
 }

@@ -46,6 +46,7 @@ android {
         jvmTarget = '1.8'
     }
     dynamicFeatures = [':favorite']
+
 }
 
 dependencies {
@@ -56,15 +57,13 @@ dependencies {
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    // MKLoader (custom loading)
-    implementation 'com.tuyenmonkey:mkloader:1.4.0'
-
     //architecture component
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
 
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationComponent"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationComponent"
+    api "androidx.navigation:navigation-dynamic-features-fragment:$navigationComponent"
 
     // Shimmer effect
     implementation "com.facebook.shimmer:shimmer:$shimmer_version"
@@ -74,5 +73,8 @@ dependencies {
 
     // Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leak_canary_version"
+
+    // MKLoader (custom loading)
+    implementation 'com.tuyenmonkey:mkloader:1.4.0'
 
 }

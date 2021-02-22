@@ -13,15 +13,27 @@ import org.koin.core.context.loadKoinModules
 
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {
 
+    private var mediator: TabLayoutMediator? = null
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = "Favorite"
-        val navBar =
-            (activity as AppCompatActivity).findViewById<BottomNavigationView>(com.rasyidin.moviesapp.R.id.bottomNavigationView)
-        navBar.visibility = View.VISIBLE
 
-        loadKoinModules(favoriteModule)
+        if (activity != null) {
+            (activity as AppCompatActivity).supportActionBar?.title = "Favorite"
+            val navBar =
+                (activity as AppCompatActivity).findViewById<BottomNavigationView>(com.rasyidin.moviesapp.R.id.bottomNavigationView)
+            navBar.visibility = View.VISIBLE
 
+            loadKoinModules(favoriteModule)
+
+            initViewPager()
+
+            initTabLayout()
+        }
+
+    }
+
+    private fun initViewPager() {
         val sectionPagerAdapter =
             SectionPagerAdapter(childFragmentManager, lifecycle)
 
@@ -32,17 +44,23 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(R.layout.fragment
             }
 
         }
+    }
 
-        TabLayoutMediator(binding.tabsFav, binding.viewPagerFav) { tab, pos ->
+    private fun initTabLayout() {
+        mediator = TabLayoutMediator(binding.tabsFav, binding.viewPagerFav) { tab, pos ->
             tab.text = when (pos) {
                 0 -> getString(TAB_TITLES[0])
                 else -> getString(TAB_TITLES[1])
             }
-        }.attach()
+        }
+        mediator?.attach()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        mediator?.detach()
+        mediator = null
+        binding.viewPagerFav.adapter = null
         _binding = null
     }
 }

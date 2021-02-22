@@ -183,5 +183,3 @@ c
 3core/src/main/res/drawable/ic_baseline_stars_16.xml,f\1\f100cc18f24d0e68aae9cc86146feb5d74128e8b
 F
 app/proguard-rules.pro,9\e\9e08934d811afe28fbc77aaa3c0d747b94348db9
-b
-2favorite/src/main/res/layout/fragment_favorite.xml,4\9\498f81e0433e4f036c76ec308ab7d9e943fc4b19

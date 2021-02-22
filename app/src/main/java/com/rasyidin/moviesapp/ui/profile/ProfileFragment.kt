@@ -26,6 +26,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).supportActionBar?.title = "Profile"
         (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navBar =
             (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.bottomNavigationView)
